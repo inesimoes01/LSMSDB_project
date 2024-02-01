@@ -8,29 +8,40 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.33333333333333337" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.MainPage">
+<SplitPane dividerPositions="0.33333333333333337" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.MainPageController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="61.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="256.0">
          <children>
-            <ImageView fx:id="profilePicture" fitHeight="200.0" fitWidth="200.0" layoutX="48.0" layoutY="37.0" pickOnBounds="true" />
-            <Label fx:id="usernameLabel" layoutX="48.0" layoutY="242.0" prefHeight="34.0" prefWidth="200.0" text="Pedro Silva">
+            <Label fx:id="usernameLabel" layoutX="23.0" layoutY="22.0" prefHeight="34.0" prefWidth="200.0" text="Pedro Silva">
                <font>
                   <Font name="System Bold" size="23.0" />
                </font>
             </Label>
-            <Hyperlink fx:id="profileLink" layoutX="48.0" layoutY="285.0" onAction="#goToProfile" prefHeight="24.0" prefWidth="200.0" text="Profile">
+            <Hyperlink fx:id="profileLink" layoutX="20.0" layoutY="81.0" onAction="#goToProfile" prefHeight="24.0" prefWidth="200.0" text="Profile">
                <font>
                   <Font size="14.0" />
                </font>
             </Hyperlink>
-            <Hyperlink fx:id="logoutLink" layoutX="48.0" layoutY="366.0" onAction="#userLogout" prefHeight="24.0" prefWidth="200.0" text="LogOut">
+            <Hyperlink fx:id="logoutLink" layoutX="20.0" layoutY="250.0" onAction="#userLogout" prefHeight="24.0" prefWidth="200.0" text="LogOut">
                <font>
                   <Font size="14.0" />
                </font>
             </Hyperlink>
-            <Hyperlink fx:id="recommendationsLink" layoutX="48.0" layoutY="325.0" onAction="#goToRecommendations" prefHeight="24.0" prefWidth="200.0" text="Recommendations">
+            <Hyperlink fx:id="newUsersLink" layoutX="48.0" layoutY="164.0" onAction="#goToNewUsers" prefHeight="24.0" prefWidth="200.0" text="New Users">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Hyperlink>
+            <Label layoutX="23.0" layoutY="122.0" text="Recommendations">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Hyperlink fx:id="newMoviesLink" layoutX="48.0" layoutY="203.0" onAction="#goToNewMovies" prefHeight="24.0" prefWidth="200.0" text="New Movies">
                <font>
                   <Font size="14.0" />
                </font>
@@ -38,35 +49,16 @@
          </children></AnchorPane>
       <ScrollPane prefHeight="200.0" prefWidth="200.0">
          <content>
-            <AnchorPane prefHeight="588.0" prefWidth="584.0" style="-fx-background-color: #000000;">
+            <AnchorPane prefHeight="588.0" prefWidth="584.0">
                <children>
-                  <ImageView fx:id="book1Image" fitHeight="200.0" fitWidth="173.0" layoutX="78.0" layoutY="62.0" onTouchPressed="#goToMovie" pickOnBounds="true" smooth="false" />
                   <ImageView fitHeight="200.0" fitWidth="173.0" layoutX="311.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true" />
-                  <ImageView fx:id="book2Image" fitHeight="200.0" fitWidth="173.0" layoutX="345.0" layoutY="62.0" onTouchPressed="#goToMovie" pickOnBounds="true" smooth="false" />
-                  <ImageView fx:id="book3Image" fitHeight="200.0" fitWidth="173.0" layoutX="76.0" layoutY="308.0" onTouchPressed="#goToMovie" pickOnBounds="true" smooth="false" />
-                  <ImageView fx:id="book4Image" fitHeight="200.0" fitWidth="173.0" layoutX="345.0" layoutY="308.0" onTouchPressed="#goToMovie" pickOnBounds="true" smooth="false" />
-                  <Label fx:id="book1Name" layoutX="77.0" layoutY="262.0" onTouchPressed="#goToMovie" prefHeight="46.0" prefWidth="176.0" text="Killing a Mockingbird" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="book2Name" layoutX="344.0" layoutY="262.0" onTouchPressed="#goToMovie" prefHeight="46.0" prefWidth="176.0" text="Killing a Mockingbird" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="book3Name" layoutX="75.0" layoutY="508.0" onTouchPressed="#goToMovie" prefHeight="46.0" prefWidth="176.0" text="Killing a Mockingbird" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="book4Name" layoutX="343.0" layoutY="508.0" onTouchPressed="#goToMovie" prefHeight="46.0" prefWidth="176.0" text="Killing a Mockingbird" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
                   <TextField fx:id="searchText" layoutX="77.0" layoutY="14.0" prefHeight="25.0" prefWidth="362.0" promptText="What do you want to see?" />
                   <Button fx:id="searchButton" layoutX="443.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchMovie" prefHeight="25.0" prefWidth="76.0" text="Search" />
+                  <VBox fx:id="movieVBOX" layoutX="34.0" layoutY="75.0" prefHeight="488.0" prefWidth="526.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="544.0" />
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
          </content>

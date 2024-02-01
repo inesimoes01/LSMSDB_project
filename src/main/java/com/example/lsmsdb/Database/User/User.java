@@ -1,28 +1,31 @@
-package com.example.lsmsdb;
+package com.example.lsmsdb.Database.User;
+
+import com.example.lsmsdb.HelloApplication;
+import javafx.scene.image.Image;
+
+import java.io.IOException;
 
 public class User {
 
     private static boolean isLoggedIn = false;
-
     private static String username;
+    private static String fullName;
+    private static Image profilePic;
+
+    public static void setUser(String newUsername, String newFullName){
+        username = newUsername;
+        fullName = newFullName;
+    }
 
     public static boolean isIsLoggedIn() {
         return isLoggedIn;
     }
 
-    public static void setIsLoggedIn(boolean isLoggedIn) {
-        User.isLoggedIn = isLoggedIn;
-    }
 
     public static String getFullName() {
         return fullName;
     }
 
-    public static void setFullName(String fullName) {
-        User.fullName = fullName;
-    }
-
-    private static String fullName;
 
     public static boolean isLoggedIn() {
         return isLoggedIn;
@@ -35,12 +38,9 @@ public class User {
     public static String getUsername() {
         return username;
     }
-
-    public static void setUsername(String username) {
-        User.username = username;
+    public static Image getProfilePic() {
+        return profilePic;
     }
-
-
 
 
 }

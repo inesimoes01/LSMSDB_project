@@ -1,17 +1,10 @@
 package com.example.lsmsdb.Database.User;
 
 import com.example.lsmsdb.Database.DatabaseMongoDB;
-import com.example.lsmsdb.User;
 import com.mongodb.MongoException;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
 import org.bson.Document;
-import org.bson.conversions.Bson;
-
-import java.util.regex.Pattern;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -27,8 +20,7 @@ public class UserDAO {
             if(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
                 if(password.equals(doc.get("password").toString())){
-                    User.setUsername(username);
-                    User.setFullName(doc.get("name").toString());
+                    User.setUser(username, doc.get("name").toString());
                     User.setLoggedIn(true);
                     return true;
                 }

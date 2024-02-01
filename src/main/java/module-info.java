@@ -20,4 +20,6 @@ module com.example.lsmsdb {
     opens com.example.lsmsdb.GUI to javafx.fxml;
     exports com.example.lsmsdb.Database;
     opens com.example.lsmsdb.Database to javafx.fxml;
+    exports com.example.lsmsdb.Database.User;
+    opens com.example.lsmsdb.Database.User to javafx.fxml;
 }

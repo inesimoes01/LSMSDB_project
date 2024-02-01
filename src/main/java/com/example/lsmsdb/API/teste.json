@@ -1,0 +1,7 @@
+{
+  "code": "fd0847dbb559752d932dd3c1ac34ff98d27b11fe2fea5a864f44740cd7919ad0",
+  "client_id": "00e2dd4298dfb45d23bb9dfc159980f456210392c8e6ad1bbdac42c94b9b5780",
+  "client_secret": "0ec6a573887187dbf7f004277883e9e5b6a563a76d03df04c80ccfea9cf2c6f0",
+  "redirect_uri": "http",
+  "grant_type": "authorization_code"
+}

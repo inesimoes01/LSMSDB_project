@@ -17,8 +17,7 @@ public class DatabaseMongoDB {
     public static void connectMongoDB(){
         clientMongoDB = MongoClients.create("mongodb://localhost:27017");
         databaseMongoDB = clientMongoDB.getDatabase("teste");
-        clientMongoDB.listDatabaseNames().forEach(System.out::println);
-
+        //clientMongoDB.listDatabaseNames().forEach(System.out::println);
         //MongoCollection collection
     }
 

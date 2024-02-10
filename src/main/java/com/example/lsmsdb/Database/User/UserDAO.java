@@ -17,19 +17,52 @@ public class UserDAO {
         searchQuery.put("id", username);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
-            if(cursorIterator.hasNext()){
-                Document doc = (Document) cursorIterator.next();
-                if(password.equals(doc.get("password").toString())){
-                    User.setUser(username, doc.get("name").toString());
-                    User.setLoggedIn(true);
-                    return true;
-                }
-                //System.out.println("Username " + cursorIterator.next());
+            Document doc = (Document) cursorIterator.next();
+            if(password.equals(doc.get("password").toString())){
+                User.setUser(username, doc.get("name").toString());
+                User.setLoggedIn(true);
+                return true;
             }
         }catch(MongoException me){
             System.exit(-1);
         }
         return false;
+    }
+
+    public static boolean checkUsernameExists(String username){
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+
+        Document searchQuery = new Document();
+        searchQuery.put("id", username);
+
+        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
+            if(cursorIterator.hasNext()){
+                // username exists
+                return true;
+            }
+        }catch(MongoException me){
+            System.exit(-1);
+        }
+        return false;
+    }
+
+    public static boolean createUser(String username, String password, String fullname){
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+
+        Document newUser = new Document("id", username)
+                .append("password", password)
+                .append("name", fullname);
+
+        try {
+            userCollection.insertOne(newUser);
+            User.setUser(username, fullname);
+            User.setLoggedIn(true);
+            return true;
+        } catch (MongoException me) {
+            // Handle MongoDB exception
+            me.printStackTrace();
+            return false;
+        }
     }
 }
 //DatabaseMongoDB.getClientMongoDB().startSession();

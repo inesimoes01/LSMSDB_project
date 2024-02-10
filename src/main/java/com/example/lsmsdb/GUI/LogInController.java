@@ -30,7 +30,6 @@ public class LogInController {
     @FXML
     private void userLogin(ActionEvent event) throws IOException{
         UserController u = new UserController();
-        DatabaseMongoDB db = new DatabaseMongoDB();
         if (UserDAO.checkUsernameCredentials(username.getText(), password.getText())){
             u.userLogin();
         }else if(username.getText().isEmpty() && password.getText().isEmpty()){
@@ -40,8 +39,10 @@ public class LogInController {
 
     @FXML
     private void userRegister(ActionEvent event) throws IOException{
-
+        UserController u = new UserController();
+        u.userRegister();
     }
+
 
 
 }

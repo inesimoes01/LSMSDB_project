@@ -17,15 +17,10 @@ public class User {
         fullName = newFullName;
     }
 
-    public static boolean isIsLoggedIn() {
-        return isLoggedIn;
-    }
-
 
     public static String getFullName() {
         return fullName;
     }
-
 
     public static boolean isLoggedIn() {
         return isLoggedIn;
@@ -41,6 +36,5 @@ public class User {
     public static Image getProfilePic() {
         return profilePic;
     }
-
 
 }

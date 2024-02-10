@@ -18,4 +18,11 @@ public class UserController {
         m.changeScene("main-page.fxml");
         User.setLoggedIn(true);
     }
+
+    public void userRegister() throws IOException {
+        HelloApplication m = new HelloApplication();
+        m.changeScene("register-page.fxml");
+    }
+
+
 }

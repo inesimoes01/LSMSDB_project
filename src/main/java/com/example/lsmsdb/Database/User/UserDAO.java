@@ -14,15 +14,18 @@ public class UserDAO {
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
 
         Document searchQuery = new Document();
-        searchQuery.put("id", username);
+        searchQuery.put("username", username);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
-            Document doc = (Document) cursorIterator.next();
-            if(password.equals(doc.get("password").toString())){
-                User.setUser(username, doc.get("name").toString());
-                User.setLoggedIn(true);
-                return true;
+            if(cursorIterator.hasNext()){
+                Document doc = (Document) cursorIterator.next();
+                if(password.equals(doc.get("password").toString())){
+                    User.setUser(username, doc.get("name").toString());
+                    User.setLoggedIn(true);
+                    return true;
+                }
             }
+
         }catch(MongoException me){
             System.exit(-1);
         }
@@ -33,7 +36,7 @@ public class UserDAO {
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
 
         Document searchQuery = new Document();
-        searchQuery.put("id", username);
+        searchQuery.put("username", username);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
@@ -49,7 +52,7 @@ public class UserDAO {
     public static boolean createUser(String username, String password, String fullname){
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
 
-        Document newUser = new Document("id", username)
+        Document newUser = new Document("username", username)
                 .append("password", password)
                 .append("name", fullname);
 

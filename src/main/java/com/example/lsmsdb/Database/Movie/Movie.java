@@ -2,18 +2,33 @@ package com.example.lsmsdb.Database.Movie;
 
 public class Movie {
 
+    private int id;
+
     private String title;
     private int year;
+
+    private String genre;
     private String poster;
 
-    public Movie(String title, int year, String poster){
+    private double rating;
+
+
+    public Movie(int id, String title, int year, String poster, double rating, String genre){
+        this.id = id;
         this.title = title;
         this.year = year;
+        this.genre = genre;
         this.poster = poster;
+        this.rating = rating;
     }
 
+    public String getGenre() {
+        return genre;
+    }
 
-
+    public double getRating() {
+        return rating;
+    }
     public String getTitle() {
         return title;
     }
@@ -39,6 +54,9 @@ public class Movie {
     }
 
 
+    public int getId() {
+        return id;
+    }
 
 
 }

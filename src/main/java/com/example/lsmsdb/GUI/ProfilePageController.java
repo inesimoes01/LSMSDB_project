@@ -3,6 +3,7 @@ package com.example.lsmsdb.GUI;
 import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.Database.User.User;
 import com.example.lsmsdb.Database.WatchList.WatchList;
+import com.example.lsmsdb.Database.WatchList.WatchListDAO;
 import com.example.lsmsdb.HelloApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,10 +35,10 @@ public class ProfilePageController {
     @FXML
     private VBox watchListVBOX;
 
+
     @FXML
     void goToMainPage(ActionEvent event) throws IOException {
-        HelloApplication m = new HelloApplication();
-        m.changeScene("main-page.fxml");
+        HelloApplication.changeScene("main-page.fxml");
     }
 
     @FXML
@@ -49,16 +50,22 @@ public class ProfilePageController {
     public void initialize(){
         textWithName.setText("Hello " + User.getFullName() + ", this is your WatchList!");
         profileImage.setImage(User.getProfilePic());
-
         displayWatchList();
-
     }
 
     private void displayWatchList(){
-        List<Movie> movieList = WatchList.getWatchList();
+        List<Movie> movieList = WatchListDAO.getMoviesFromWatchList();
+        if (!movieList.isEmpty()){
+            displayMovies(movieList);
+        }
+    }
+
+    public void displayMovies(List<Movie> movieList){
+        watchListVBOX.getChildren().clear();
 
         for (Movie movie : movieList){
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
+            System.out.println("Movie: " + movie.getTitle());
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item-profile.fxml"));
             try {
                 HBox grid = fxmlLoader.load();
                 MovieItemController mi = fxmlLoader.getController();
@@ -69,6 +76,5 @@ public class ProfilePageController {
             }
         }
     }
-
 }
 

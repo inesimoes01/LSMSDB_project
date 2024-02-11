@@ -12,19 +12,19 @@
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="487.0">
          <children>
-            <ImageView fx:id="poster" fitHeight="300.0" fitWidth="200.0" layoutX="14.0" layoutY="16.0" onMouseClicked="#goToMoviePage" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="poster" fitHeight="300.0" fitWidth="200.0" layoutX="14.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                <Image url="https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg" />
             </ImageView>
-            <Label fx:id="title" layoutX="243.0" layoutY="27.0" onMouseClicked="#goToMoviePage" prefHeight="27.0" prefWidth="200.0" text="Pulp Fiction" textAlignment="CENTER">
+            <Label fx:id="title" layoutX="243.0" layoutY="27.0" prefHeight="27.0" prefWidth="200.0" text="Pulp Fiction" textAlignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font></Label>
             <Label fx:id="year" layoutX="244.0" layoutY="62.0" prefHeight="27.0" prefWidth="60.0" text="2019" textAlignment="CENTER" />
-            <Button fx:id="changeWatchListButton" layoutX="243.0" layoutY="281.0" mnemonicParsing="false" onAction="#changeMovieInWatchList" text="Add to WatchList" />
+            <Button fx:id="changeWatchListButton" layoutX="243.0" layoutY="281.0" mnemonicParsing="false" onAction="#removeMovieFromWatchListProfile" text="Remove from WatchList" />
             <Label fx:id="movieid" layoutX="244.0" layoutY="239.0" prefHeight="27.0" prefWidth="60.0" textAlignment="CENTER" textFill="TRANSPARENT" />
             <Label fx:id="rating" layoutX="244.0" layoutY="97.0" prefHeight="27.0" prefWidth="60.0" text="8.5" textAlignment="CENTER" />
             <Label fx:id="genre" layoutX="243.0" layoutY="138.0" prefHeight="27.0" prefWidth="60.0" text="drama" textAlignment="CENTER" />
-            <Label fx:id="labelAdded" layoutX="247.0" layoutY="252.0" prefHeight="27.0" prefWidth="100.0" textAlignment="CENTER" textFill="#41c350" />
+            <Label fx:id="labelAdded" layoutX="247.0" layoutY="252.0" prefHeight="27.0" prefWidth="100.0" textAlignment="CENTER" textFill="TRANSPARENT" />
          </children>
       </AnchorPane>
    </children>

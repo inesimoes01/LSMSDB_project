@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class HelloApplication extends Application {
@@ -31,8 +32,8 @@ public class HelloApplication extends Application {
 
     }
 
-    public void changeScene(String fxml) throws IOException {
-        Parent pane = FXMLLoader.load(getClass().getResource(fxml));
+    public static void changeScene(String fxml) throws IOException {
+        Parent pane = FXMLLoader.load(Objects.requireNonNull(HelloApplication.class.getResource(fxml)));
         stc.getScene().setRoot(pane);
     }
 

@@ -9,19 +9,16 @@ import java.io.IOException;
 public class UserController {
     public void userLogout() throws IOException {
         User.setLoggedIn(false);
-        HelloApplication m = new HelloApplication();
-        m.changeScene("login.fxml");
+        HelloApplication.changeScene("login.fxml");
     }
 
     public void userLogin() throws IOException {
-        HelloApplication m = new HelloApplication();
-        m.changeScene("main-page.fxml");
+        HelloApplication.changeScene("main-page.fxml");
         User.setLoggedIn(true);
     }
 
     public void userRegister() throws IOException {
-        HelloApplication m = new HelloApplication();
-        m.changeScene("register-page.fxml");
+        HelloApplication.changeScene("register-page.fxml");
     }
 
 

@@ -12,39 +12,43 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.33333333333333337" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.ProfilePageController">
+<SplitPane dividerPositions="0.6820409982174689" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.ProfilePageController">
   <items>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="256.0">
-         <children>
-            <Hyperlink fx:id="logoutLink" layoutX="20.0" layoutY="250.0" onAction="#userLogout" prefHeight="24.0" prefWidth="200.0" text="LogOut">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Hyperlink>
-            <Button fx:id="backButton" layoutX="24.0" layoutY="286.0" mnemonicParsing="false" onAction="#goToMainPage" text="Go Back" />
-            <ImageView fx:id="profileImage" fitHeight="196.0" fitWidth="193.0" layoutX="52.0" layoutY="30.0" pickOnBounds="true">
-               <image>
-                  <Image url="@../../../../../../../../../../../../../imagens/avatar/f3cbd1ec5d8c925f586bfd1662667125.jpg" />
-               </image>
-            </ImageView>
-         </children></AnchorPane>
       <ScrollPane prefHeight="200.0" prefWidth="200.0">
          <content>
-            <AnchorPane prefHeight="588.0" prefWidth="584.0">
+            <AnchorPane prefHeight="612.0" prefWidth="623.0" style="-fx-background-color: #AEA4BF;">
                <children>
-                  <VBox fx:id="watchListVBOX" layoutX="34.0" layoutY="75.0" prefHeight="488.0" prefWidth="526.0">
+                  <VBox fx:id="watchListVBOX" layoutX="34.0" layoutY="75.0" prefHeight="498.0" prefWidth="539.0">
                      <children>
                         <HBox prefHeight="100.0" prefWidth="544.0" />
                      </children>
                   </VBox>
-                  <Label fx:id="textWithName" layoutX="14.0" layoutY="14.0" text="Hello ... this is your WatchList">
+                  <Label fx:id="textWithName" layoutX="14.0" layoutY="24.0" text="Hello ... this is your WatchList" textFill="#211c6a">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="Verdana" size="24.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
          </content>
       </ScrollPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="598.0" prefWidth="256.0" style="-fx-background-color: #59B4C3;">
+         <children>
+             <Hyperlink fx:id="logoutLink" layoutX="191.0" layoutY="238.0" onAction="#userLogout" prefHeight="26.0" prefWidth="72.0" text="LogOut" textFill="#201c69">
+                 <font>
+                     <Font name="System Bold" size="14.0" />
+                 </font>
+             </Hyperlink>
+            <Button fx:id="backButton" layoutX="180.0" layoutY="553.0" mnemonicParsing="false" onAction="#goToMainPage" style="-fx-background-color: #211C6A;" text="Go Back" textFill="WHITE">
+               <font>
+                  <Font name="Verdana" size="16.0" />
+               </font></Button>
+            <ImageView fx:id="profileImage" fitHeight="196.0" fitWidth="193.0" layoutX="52.0" layoutY="30.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../../../../../../../../../../../imagens/avatar/f3cbd1ec5d8c925f586bfd1662667125.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
   </items>
 </SplitPane>

@@ -83,27 +83,6 @@ public class MainPageController {
         }
     }
 
-
-//    private List<Movie> getSearchResults(){
-//        List<Movie> movieList = new ArrayList<>();
-//        Movie m1 = new Movie("Parasite", 2019, "https://m.media-amazon.com/images/I/81hsswTfQXL._AC_UF894,1000_QL80_.jpg");
-//        Movie m2 = new Movie("Nemo", 2009, "https://m.media-amazon.com/images/I/81hsswTfQXL._AC_UF894,1000_QL80_.jpg");
-//        Movie m3 = new Movie("Pulp Fiction", 1990, "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg");
-//        Movie m4 = new Movie("Fight Club", 2001, "https://m.media-amazon.com/images/I/81hsswTfQXL._AC_UF894,1000_QL80_.jpg");
-//        Movie m5 = new Movie("Hannah Montana", 2014, "https://m.media-amazon.com/images/M/MV5BYjZhY2NiN2EtMjMwZi00YTZlLTljOTktYTExNjliZTQ5ZTMxXkEyXkFqcGdeQXVyODk1MjAxNzQ@._V1_FMjpg_UX1000_.jpg");
-//        Movie m6 = new Movie("500 Days of Summer", 2016, "https://m.media-amazon.com/images/I/81hsswTfQXL._AC_UF894,1000_QL80_.jpg");
-//
-//
-//        movieList.add(m1);
-//        movieList.add(m2);
-//        movieList.add(m3);
-//        movieList.add(m4);
-//        movieList.add(m5);
-//        movieList.add(m6);
-//
-//        return movieList;
-//    }
-
     public void goToNewMovies(ActionEvent actionEvent) {
     }
 

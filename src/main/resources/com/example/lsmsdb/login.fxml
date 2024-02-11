@@ -7,8 +7,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.LogInController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #211C6A;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.LogInController">
    <left>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </left>
@@ -22,13 +24,30 @@
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="200.0" prefWidth="506.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="login" layoutX="150.0" layoutY="251.0" mnemonicParsing="false" onAction="#userLogin" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #000000;" text="Login" />
-            <TextField fx:id="username" layoutX="151.0" layoutY="137.0" prefHeight="26.0" prefWidth="180.0" promptText="Username" style="-fx-border-color: #000000;" />
-            <Button fx:id="register" layoutX="254.0" layoutY="251.0" mnemonicParsing="false" onAction="#userRegister" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #000000;" text="Register" />
-            <PasswordField fx:id="password" layoutX="151.0" layoutY="184.0" prefHeight="26.0" prefWidth="180.0" promptText="Password" style="-fx-border-color: #000000;" />
+            <Button fx:id="login" layoutX="150.0" layoutY="287.0" mnemonicParsing="false" onAction="#userLogin" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #59B4C3;" text="Login">
+               <font>
+                  <Font name="Verdana" size="14.0" />
+               </font></Button>
+            <TextField fx:id="username" layoutX="151.0" layoutY="147.0" prefHeight="26.0" prefWidth="180.0" promptText="Username" style="-fx-border-color: #000000; -fx-background-color: #EFF396;">
+               <font>
+                  <Font name="Verdana" size="13.0" />
+               </font></TextField>
+            <Button fx:id="register" layoutX="253.0" layoutY="287.0" mnemonicParsing="false" onAction="#userRegister" prefHeight="30.0" prefWidth="78.0" style="-fx-background-color: #59B4C3;" text="Register">
+               <font>
+                  <Font name="Verdana" size="14.0" />
+               </font></Button>
+            <PasswordField fx:id="password" layoutX="151.0" layoutY="210.0" prefHeight="26.0" prefWidth="180.0" promptText="Password" style="-fx-border-color: #000000; -fx-background-color: #EFF396;">
+               <font>
+                  <Font name="Verdana" size="13.0" />
+               </font></PasswordField>
             <Label fx:id="wrongLogin" layoutX="150.0" layoutY="99.0" textFill="#ea3f3f" AnchorPane.topAnchor="99.0" />
+            <Text fill="#ead8ef" layoutX="62.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CineLink" textAlignment="CENTER" wrappingWidth="358.31280517578125">
+               <font>
+                  <Font name="Tw Cen MT" size="85.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </center>

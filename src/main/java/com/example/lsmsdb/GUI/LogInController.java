@@ -32,7 +32,7 @@ public class LogInController {
         UserController u = new UserController();
         if (UserDAO.checkUsernameCredentials(username.getText(), password.getText())){
             u.userLogin();
-        }else if(username.getText().isEmpty() && password.getText().isEmpty()){
+        }else if(username.getText().isEmpty() || password.getText().isEmpty()){
             wrongLogin.setText("Please enter the data");
         }else wrongLogin.setText("Wrong credentials");
     }

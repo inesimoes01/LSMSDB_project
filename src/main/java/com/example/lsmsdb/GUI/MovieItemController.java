@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MovieItemController {
 
@@ -43,7 +44,7 @@ public class MovieItemController {
         title.setText(movie.getTitle());
         year.setText(String.valueOf(movie.getYear()));
         rating.setText(String.valueOf(movie.getRating()));
-        genre.setText(movie.getGenre());
+        genre.setText(getGenreString(movie.getGenre()));
         labelAdded.setText(" ");
         if (WatchListDAO.checkIfMovieInWatchList(User.getUsername(), movie.getId())){
             changeWatchListButton.setText("Remove from WatchList" );
@@ -53,6 +54,14 @@ public class MovieItemController {
 
     }
 
+    private String getGenreString(List<String> movieList){
+        String result = "";
+        for (String m : movieList){
+            result += m;
+        }
+        System.out.println(result);
+        return result;
+    }
     public void changeMovieInWatchList() throws IOException {
         if (changeWatchListButton.getText().equals("Add to WatchList")){
             addMovieToWatchList();

@@ -42,7 +42,8 @@ public class MainPageController {
     public void initialize(){
 
         usernameLabel.setText(User.getFullName());
-        List<Movie> movieList = MovieDAO.getListMovies();
+        List<Movie> movieList = MovieDAO.getMainPageMovies();
+        System.out.println("stuck here");
         displayMovies(movieList);
     }
     @FXML

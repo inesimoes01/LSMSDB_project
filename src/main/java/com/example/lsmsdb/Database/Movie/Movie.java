@@ -1,19 +1,18 @@
 package com.example.lsmsdb.Database.Movie;
 
+import java.util.List;
+
 public class Movie {
 
     private int id;
-
     private String title;
     private int year;
-
-    private String genre;
+    private List<String> genre;
     private String poster;
-
     private double rating;
 
 
-    public Movie(int id, String title, int year, String poster, double rating, String genre){
+    public Movie(int id, String title, int year, String poster, double rating, List<String> genre){
         this.id = id;
         this.title = title;
         this.year = year;
@@ -22,7 +21,7 @@ public class Movie {
         this.rating = rating;
     }
 
-    public String getGenre() {
+    public List<String> getGenre() {
         return genre;
     }
 

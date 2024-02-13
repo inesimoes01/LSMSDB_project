@@ -13,6 +13,7 @@ import java.util.Objects;
 
 public class HelloApplication extends Application {
     private static Stage stc;
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         stc = primaryStage;

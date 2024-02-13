@@ -1,0 +1,45 @@
+import requests
+from pymongo import MongoClient
+
+# TMDB API base URL
+TMDB_API_BASE_URL = "https://api.themoviedb.org/3"
+
+# MongoDB connection settings
+MONGODB_CONNECTION_STRING = "mongodb://localhost:27017/"
+MONGODB_DATABASE_NAME = "teste"
+MONGODB_COLLECTION_NAME = "genre"
+
+# TMDB API key
+API_KEY = "76056d7e5ae115fdddbfcb0918c539d1"
+
+# Initialize MongoDB client and database
+client = MongoClient(MONGODB_CONNECTION_STRING)
+db = client[MONGODB_DATABASE_NAME]
+collection = db[MONGODB_COLLECTION_NAME]
+
+# TMDB endpoint for popular movies
+endpoint = "/genre/movie/list"
+
+# TMDB API request parameters
+params = {
+    "api_key": API_KEY
+}
+
+# Make GET request to TMDB API
+response = requests.get(TMDB_API_BASE_URL + endpoint, params=params)
+# Check if request was successful
+if response.status_code == 200:
+    # Parse response JSON
+    genres_data = response.json()["genres"]
+
+    # Insert movie data into MongoDB collection
+    genre_names = [genre["name"] for genre in genres_data]
+    collection.insert_many(genres_data)
+    # Print list of genre names
+    print("List of movie genres:")
+    for genre_name in genre_names:
+        print(genre_name)
+    
+        # collection.insert_one(genre_name)
+else:
+    print("Error:", response.status_code)

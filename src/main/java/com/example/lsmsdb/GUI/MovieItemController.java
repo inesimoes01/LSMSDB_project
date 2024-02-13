@@ -35,6 +35,8 @@ public class MovieItemController {
     private Label rating;
     @FXML
     private Label genre;
+    @FXML
+    private Label reviewNumber;
     private Movie m;
 
     public void setData(Movie movie){
@@ -45,8 +47,10 @@ public class MovieItemController {
         year.setText(String.valueOf(movie.getYear()));
         rating.setText(String.valueOf(movie.getRating()));
         genre.setText(getGenreString(movie.getGenre()));
+        reviewNumber.setText(String.valueOf(movie.getReviewNumber()));
         labelAdded.setText(" ");
-        if (WatchListDAO.checkIfMovieInWatchList(User.getUsername(), movie.getId())){
+
+        if (WatchListDAO.checkIfMovieInWatchList(movie.getId())){
             changeWatchListButton.setText("Remove from WatchList" );
         } else {
             changeWatchListButton.setText("Add to WatchList");
@@ -57,9 +61,8 @@ public class MovieItemController {
     private String getGenreString(List<String> movieList){
         String result = "";
         for (String m : movieList){
-            result += m;
+            result += m + ", ";
         }
-        System.out.println(result);
         return result;
     }
     public void changeMovieInWatchList() throws IOException {
@@ -76,7 +79,7 @@ public class MovieItemController {
     }
 
     public void removeMovieFromWatchList() throws IOException {
-        WatchListDAO.removeMovieFromUserWatchList(User.getUsername(), Integer.parseInt(movieid.getText()));
+        WatchListDAO.removeMovieFromUserWatchList(Integer.parseInt(movieid.getText()));
 //        WatchList.removeMovie(Integer.parseInt(movieid.getText()));
         labelAdded.setText("Movie removed from your Watch List");
         changeWatchListButton.setText("Add to WatchList" );

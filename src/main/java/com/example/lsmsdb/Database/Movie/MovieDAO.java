@@ -5,11 +5,14 @@ import com.example.lsmsdb.Database.User.User;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MovieDAO {
     static Integer MAX_NUMBER_MOVIES = 20;
@@ -19,17 +22,20 @@ public class MovieDAO {
     public static List<Movie> getMoviesFromName(String titleInput){
         MongoCollection movieCollection = DatabaseMongoDB.getCollection("movie");
         List<Movie> listMovies = new ArrayList<>();
+        Pattern pattern = Pattern.compile(".*" + titleInput + ".*", Pattern.CASE_INSENSITIVE);
 
         Document searchQuery = new Document();
-        searchQuery.put("title", titleInput);
+        searchQuery.put("title", pattern);
 
 
         try(MongoCursor cursorIterator = movieCollection.find(searchQuery).iterator()){
-            if(cursorIterator.hasNext()){
+            while(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
+                System.out.println(doc);
                 listMovies.add(createMovie(doc));
-                return listMovies;
+
             }
+            return listMovies;
 
         }catch(MongoException me){
             System.exit(-1);
@@ -42,11 +48,12 @@ public class MovieDAO {
         List<Movie> listMovies = new ArrayList<>();
 
         Document searchQuery = new Document();
-        searchQuery.put("movieid", idInput);
+        searchQuery.put("id", idInput);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
+                System.out.println(doc);
                 return createMovie(doc);
             }
 
@@ -80,14 +87,14 @@ public class MovieDAO {
             String poster = getMoviePosterLink(doc.getString("poster_path"));
             String title = doc.getString("title");
             Integer year = getMovieYear(doc.getString("release_date"));
-            System.out.println("after" + year);
             Double rating = doc.getDouble("vote_average");
             List<String> genre = getMovieGenre((List<Integer>) doc.get("genre_ids"));
+            Integer review = doc.getInteger("vote_count");
 
-            if (movieid == null || poster == null || title == null || year == null  || rating == null || genre == null ){
+            if (movieid == null || poster == null || title == null || year == null  || rating == null || genre == null || review == null ){
                 return null;
             }
-            Movie m = new Movie(movieid, title, year, poster, rating, genre);
+            Movie m = new Movie(movieid, title, year, poster, rating, genre, review);
             return m;
         }
         catch (Exception e) {

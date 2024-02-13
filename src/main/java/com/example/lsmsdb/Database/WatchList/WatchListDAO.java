@@ -14,14 +14,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WatchListDAO {
-    public static void addMovieToUserWatchList(String username, int id){
+
+    private static List<Integer> watchListFromUser = new ArrayList<>();
+
+    public static void initializeWatchList(){
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
         Document searchQuery = new Document();
-        searchQuery.put("username", username);
+        searchQuery.put("username", User.getUsername());
+
+        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
+            if(cursorIterator.hasNext()){
+                Document doc = (Document) cursorIterator.next();
+                watchListFromUser = (List<Integer>) doc.get("watchlist");
+            }
+        }catch(MongoException me){
+            System.exit(-1);
+        }
+    }
+
+    public static void addMovieToUserWatchList(int id){
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+        Document searchQuery = new Document();
+        searchQuery.put("username", User.getUsername());
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             Document updateDocument = new Document("$addToSet", new Document("watchlist", id));
             userCollection.updateOne(searchQuery, updateDocument, new UpdateOptions().upsert(true));
+            watchListFromUser.add(id);
+        }catch(MongoException me){
+            System.exit(-1);
+        }
+
+    }
+
+    public static void removeMovieFromUserWatchList(int id){
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+        Document searchQuery = new Document();
+        searchQuery.put("username", User.getUsername());
+
+        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
+            Document updateDocument = new Document("$pull", new Document("watchlist", id));
+            userCollection.updateOne(searchQuery, updateDocument, new UpdateOptions().upsert(true));
+            watchListFromUser.remove((Object) id);
         }catch(MongoException me){
             System.exit(-1);
         }
@@ -29,68 +63,38 @@ public class WatchListDAO {
     }
 
     public static List<Movie> getMoviesFromWatchList(){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
-        List<Integer> idList;
-        List<Movie> watchList = new ArrayList<>();
-        Document searchQuery = new Document();
-        searchQuery.put("username", User.getUsername());
+        List<Movie> list = new ArrayList<>();
 
-        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
-            if(cursorIterator.hasNext()){
-                Document doc = (Document) cursorIterator.next();
-                System.out.println(doc);
-                idList = (List<Integer>) doc.get("watchlist");
-                if (idList != null ){
-
-                    for (Integer id : idList){
-                        watchList.add(MovieDAO.getMovieById(id));
-                    }
-                }
-                return watchList;
-                //movieList.add(new Movie(doc.getInteger("movieid"), doc.getString("title"), doc.getInteger("year"), doc.getString("poster"), doc.getDouble("rating"), doc.getString("genre")));
-            }
-        }catch(MongoException me){
-            System.exit(-1);
+        for(Integer id : watchListFromUser){
+            list.add(MovieDAO.getMovieById(id));
         }
-
-        return null;
+        return list;
     }
 
-    public static void removeMovieFromUserWatchList(String username, int id){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
-        Document searchQuery = new Document();
-        searchQuery.put("username", username);
-
-        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
-            Document updateDocument = new Document("$pull", new Document("watchlist", id));
-            userCollection.updateOne(searchQuery, updateDocument, new UpdateOptions().upsert(true));
-        }catch(MongoException me){
-            System.exit(-1);
-        }
-
-    }
-
-    public static boolean checkIfMovieInWatchList(String username, int id){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
-        List<Integer> idList;
-        List<Movie> watchList = new ArrayList<>();
-        Document searchQuery = new Document();
-        searchQuery.put("username", User.getUsername());
-
-        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
-            if(cursorIterator.hasNext()){
-                Document doc = (Document) cursorIterator.next();
-                System.out.println(doc);
-                idList = (List<Integer>) doc.get("watchlist");
-                if (idList != null ){
-                    if (idList.contains(id)){
-                        return true;
-                    } else return false;
-                }
-            }
-        }catch(MongoException me){
-            System.exit(-1);
-        }
-        return false;
+    public static boolean checkIfMovieInWatchList(int id){
+        return watchListFromUser.contains(id);
     }
 }
+//        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+//        List<Integer> idList;
+//        List<Movie> watchList = new ArrayList<>();
+//        Document searchQuery = new Document();
+//        searchQuery.put("username", User.getUsername());
+
+
+
+//        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
+//            if(cursorIterator.hasNext()){
+//                Document doc = (Document) cursorIterator.next();
+//                System.out.println("trying to retrieve watchlist " + doc);
+//                idList = (List<Integer>) doc.get("watchlist");
+//                if (idList != null ){
+//                    if (idList.contains(id)){
+//                        return true;
+//                    } else return false;
+//                }
+//            }
+//        }catch(MongoException me){
+//            System.exit(-1);
+//        }
+//        return false;

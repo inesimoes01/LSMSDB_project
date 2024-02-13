@@ -2,6 +2,7 @@ package com.example.lsmsdb.GUI;
 
 import com.example.lsmsdb.Database.DatabaseMongoDB;
 import com.example.lsmsdb.Database.User.UserDAO;
+import com.example.lsmsdb.Database.WatchList.WatchListDAO;
 import com.example.lsmsdb.HelloApplication;
 import com.example.lsmsdb.Database.User.User;
 import javafx.event.ActionEvent;
@@ -32,6 +33,7 @@ public class LogInController {
         UserController u = new UserController();
         if (UserDAO.checkUsernameCredentials(username.getText(), password.getText())){
             u.userLogin();
+            WatchListDAO.initializeWatchList();
         }else if(username.getText().isEmpty() || password.getText().isEmpty()){
             wrongLogin.setText("Please enter the data");
         }else wrongLogin.setText("Wrong credentials");

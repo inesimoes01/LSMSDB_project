@@ -11,11 +11,11 @@ import java.util.List;
 public class WatchList {
 
     public static void addMovieToWatchList(int id){
-        WatchListDAO.addMovieToUserWatchList(User.getUsername(), id);
+        WatchListDAO.addMovieToUserWatchList(id);
     }
 
     public static void removeMovie(int id) throws IOException {
-        WatchListDAO.removeMovieFromUserWatchList(User.getUsername(), id);
+        WatchListDAO.removeMovieFromUserWatchList(id);
         HelloApplication.changeScene("profile-page.fxml");
     }
 }

@@ -10,15 +10,17 @@ public class Movie {
     private List<String> genre;
     private String poster;
     private double rating;
+    private int reviewNumber;
 
 
-    public Movie(int id, String title, int year, String poster, double rating, List<String> genre){
+    public Movie(int id, String title, int year, String poster, double rating, List<String> genre, int reviewNumber){
         this.id = id;
         this.title = title;
         this.year = year;
         this.genre = genre;
         this.poster = poster;
         this.rating = rating;
+        this.reviewNumber = reviewNumber;
     }
 
     public List<String> getGenre() {
@@ -55,6 +57,9 @@ public class Movie {
 
     public int getId() {
         return id;
+    }
+    public int getReviewNumber() {
+        return reviewNumber;
     }
 
 

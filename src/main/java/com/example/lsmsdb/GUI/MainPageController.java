@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -43,7 +44,6 @@ public class MainPageController {
 
         usernameLabel.setText(User.getFullName());
         List<Movie> movieList = MovieDAO.getMainPageMovies();
-        System.out.println("stuck here");
         displayMovies(movieList);
     }
     @FXML
@@ -71,13 +71,15 @@ public class MainPageController {
         movieVBOX.getChildren().clear();
 
         for (Movie movie : movieList){
-            System.out.println("Movie: " + movie.getTitle());
+            //System.out.println("Movie: " + movie.getTitle());
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
             try {
                 HBox grid = fxmlLoader.load();
                 MovieItemController mi = fxmlLoader.getController();
                 mi.setData(movie);
+
                 movieVBOX.getChildren().add(grid);
+
             } catch (IOException e){
                 e.printStackTrace();
             }

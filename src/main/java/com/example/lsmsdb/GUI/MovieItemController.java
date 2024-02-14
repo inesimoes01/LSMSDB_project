@@ -19,6 +19,7 @@ public class MovieItemController {
 
     //TODO make a different movie item for the watchlist
     //TODO button from add to watch list should change to remove from watchlist
+    private static Movie m;
     @FXML
     public Button changeWatchListButton;
     @FXML
@@ -37,16 +38,16 @@ public class MovieItemController {
     private Label genre;
     @FXML
     private Label reviewNumber;
-    private Movie m;
 
     public void setData(Movie movie){
+        m = movie;
         Image posterImage = new Image(movie.getPoster());
         movieid.setText(String.valueOf(movie.getId()));
         poster.setImage(posterImage);
         title.setText(movie.getTitle());
         year.setText(String.valueOf(movie.getYear()));
         rating.setText(String.valueOf(movie.getRating()));
-        genre.setText(getGenreString(movie.getGenre()));
+        genre.setText(movie.getGenre());
         reviewNumber.setText(String.valueOf(movie.getReviewNumber()));
         labelAdded.setText(" ");
 
@@ -56,14 +57,6 @@ public class MovieItemController {
             changeWatchListButton.setText("Add to WatchList");
         }
 
-    }
-
-    private String getGenreString(List<String> movieList){
-        String result = "";
-        for (String m : movieList){
-            result += m + ", ";
-        }
-        return result;
     }
     public void changeMovieInWatchList() throws IOException {
         if (changeWatchListButton.getText().equals("Add to WatchList")){
@@ -93,7 +86,9 @@ public class MovieItemController {
     }
 
     public void goToMoviePage() throws IOException {
+        MovieController.setCurrentMovie(m);
         HelloApplication.changeScene("movie-page.fxml");
+
     }
 
 

@@ -4,6 +4,8 @@ import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.Database.Movie.MovieDAO;
 import com.example.lsmsdb.HelloApplication;
 import com.example.lsmsdb.Database.User.User;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,38 +24,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainPageController {
-    public TextField searchText;
-    public Button searchButton;
-    public Hyperlink newMoviesLink;
-    public Hyperlink newUsersLink;
-    @FXML
-    private Hyperlink profileLink;
-    @FXML
-    private Hyperlink recommendationsLink;
     @FXML
     private Hyperlink logoutLink;
+
     @FXML
-    private Label usernameLabel;
-    @FXML
-    private ImageView profilePicture;
+    private Hyperlink mainPageLink;
 
     @FXML
     private VBox movieVBOX;
 
-    public void initialize(){
+    @FXML
+    private Hyperlink newMoviesLink;
 
-        usernameLabel.setText(User.getFullName());
+    @FXML
+    private Hyperlink newUsersLink;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private TextField searchText;
+
+    @FXML
+    private Hyperlink usernameLink;
+
+    public void initialize(){
+        usernameLink.setText(UserController.getLoggedInUser().getFullName());
         List<Movie> movieList = MovieDAO.getMainPageMovies();
         displayMovies(movieList);
     }
+
     @FXML
     private void goToProfile(ActionEvent event) throws IOException {
         HelloApplication.changeScene("profile-page.fxml");
     }
 
     @FXML
-    private void goToRecommendations(ActionEvent event){
+    void goToNewMovies(ActionEvent event) {
 
+    }
+
+    @FXML
+    void goToNewUsers(ActionEvent event) {
+
+    }
+
+    @FXML
+    void goToMainPage(ActionEvent event) {
+        initialize();
     }
 
     @FXML
@@ -62,33 +80,39 @@ public class MainPageController {
         u.userLogout();
     }
 
+    @FXML
     public void searchMovie(ActionEvent event) {
         List<Movie> movieList = MovieDAO.getMoviesFromName(searchText.getText());
         displayMovies(movieList);
     }
 
-    public void displayMovies(List<Movie> movieList){
+    public void displayMovies(List<Movie> movieList) {
+        // Clear existing movie items
         movieVBOX.getChildren().clear();
 
-        for (Movie movie : movieList){
-            //System.out.println("Movie: " + movie.getTitle());
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
-            try {
-                HBox grid = fxmlLoader.load();
-                MovieItemController mi = fxmlLoader.getController();
-                mi.setData(movie);
+        // Load movie items in a background thread
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (Movie movie : movieList) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
+                    try {
+                        HBox grid = fxmlLoader.load();
+                        MovieItemController mi = fxmlLoader.getController();
+                        mi.setData(movie);
 
-                movieVBOX.getChildren().add(grid);
-
-            } catch (IOException e){
-                e.printStackTrace();
+                        // Add the movie item to the VBox
+                        Platform.runLater(() -> movieVBOX.getChildren().add(grid));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
             }
-        }
+        };
+
+        // Start the background task
+        new Thread(task).start();
     }
 
-    public void goToNewMovies(ActionEvent actionEvent) {
-    }
-
-    public void goToNewUsers(ActionEvent actionEvent) {
-    }
 }

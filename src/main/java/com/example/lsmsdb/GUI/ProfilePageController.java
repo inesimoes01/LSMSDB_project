@@ -5,6 +5,8 @@ import com.example.lsmsdb.Database.User.User;
 import com.example.lsmsdb.Database.WatchList.WatchList;
 import com.example.lsmsdb.Database.WatchList.WatchListDAO;
 import com.example.lsmsdb.HelloApplication;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,8 +50,8 @@ public class ProfilePageController {
     }
 
     public void initialize(){
-        textWithName.setText("Hello " + User.getFullName() + ", this is your WatchList!");
-        profileImage.setImage(User.getProfilePic());
+        textWithName.setText("Hello " + UserController.getLoggedInUser().getFullName() + "!");
+        //profileImage.setImage(User.getProfilePic());
         displayWatchList();
     }
 
@@ -60,21 +62,33 @@ public class ProfilePageController {
         }
     }
 
-    public void displayMovies(List<Movie> movieList){
+    public void displayMovies(List<Movie> movieList) {
         watchListVBOX.getChildren().clear();
 
-        for (Movie movie : movieList){
-            System.out.println("Movie: " + movie.getTitle());
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item-profile.fxml"));
-            try {
-                HBox grid = fxmlLoader.load();
-                MovieItemController mi = fxmlLoader.getController();
-                mi.setData(movie);
-                watchListVBOX.getChildren().add(grid);
-            } catch (IOException e){
-                e.printStackTrace();
+        watchListVBOX.getChildren().add(new Label("Loading..."));
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for (Movie movie : movieList) {
+                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item-profile.fxml"));
+                    try {
+                        HBox grid = fxmlLoader.load();
+                        MovieItemController mi = fxmlLoader.getController();
+                        mi.setData(movie);
+
+                        // Add the movie item to the VBox
+                        Platform.runLater(() -> watchListVBOX.getChildren().add(grid));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
             }
-        }
+        };
+
+        // Start the background task
+        new Thread(task).start();
     }
 }
 

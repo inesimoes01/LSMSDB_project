@@ -4,6 +4,7 @@ import com.example.lsmsdb.Database.DatabaseMongoDB;
 import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.Database.Movie.MovieDAO;
 import com.example.lsmsdb.Database.User.User;
+import com.example.lsmsdb.GUI.UserController;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -20,7 +21,7 @@ public class WatchListDAO {
     public static void initializeWatchList(){
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
         Document searchQuery = new Document();
-        searchQuery.put("username", User.getUsername());
+        searchQuery.put("username", UserController.getLoggedInUser().getUsername());
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
@@ -35,7 +36,7 @@ public class WatchListDAO {
     public static void addMovieToUserWatchList(int id){
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
         Document searchQuery = new Document();
-        searchQuery.put("username", User.getUsername());
+        searchQuery.put("username", UserController.getLoggedInUser().getUsername());
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             Document updateDocument = new Document("$addToSet", new Document("watchlist", id));
@@ -50,7 +51,7 @@ public class WatchListDAO {
     public static void removeMovieFromUserWatchList(int id){
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
         Document searchQuery = new Document();
-        searchQuery.put("username", User.getUsername());
+        searchQuery.put("username", UserController.getLoggedInUser().getUsername());
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             Document updateDocument = new Document("$pull", new Document("watchlist", id));

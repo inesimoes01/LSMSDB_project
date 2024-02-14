@@ -6,11 +6,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 
+import java.util.List;
+
 import static com.mongodb.client.model.Filters.eq;
 
 public class UserDAO {
 
-    public static boolean checkUsernameCredentials(String username, String password){
+    public static User checkUsernameCredentials(String username, String password){
         MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
 
         Document searchQuery = new Document();
@@ -20,16 +22,14 @@ public class UserDAO {
             if(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
                 if(password.equals(doc.get("password").toString())){
-                    User.setUser(username, doc.get("name").toString());
-                    User.setLoggedIn(true);
-                    return true;
+                    return new User(username, doc.getString("name"), (List<Integer>) doc.get("watchlist"));
                 }
             }
 
         }catch(MongoException me){
             System.exit(-1);
         }
-        return false;
+        return null;
     }
 
     public static boolean checkUsernameExists(String username){
@@ -40,7 +40,6 @@ public class UserDAO {
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
-                // username exists
                 return true;
             }
         }catch(MongoException me){
@@ -58,14 +57,33 @@ public class UserDAO {
 
         try {
             userCollection.insertOne(newUser);
-            User.setUser(username, fullname);
-            User.setLoggedIn(true);
+
             return true;
         } catch (MongoException me) {
             // Handle MongoDB exception
             me.printStackTrace();
             return false;
         }
+    }
+
+    public static User getUserFromUsername(String usernameInput){
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+
+        Document searchQuery = new Document();
+        searchQuery.put("username", usernameInput);
+
+        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
+            if(cursorIterator.hasNext()){
+                Document doc = (Document) cursorIterator.next();
+                String username = doc.getString("username");
+                String fullname = doc.getString("name");
+                List<Integer> watchlist = (List<Integer>) doc.get("watchlist");
+                return new User(username, fullname, watchlist);
+            }
+        }catch(MongoException me){
+            System.exit(-1);
+        }
+        return null;
     }
 }
 //DatabaseMongoDB.getClientMongoDB().startSession();

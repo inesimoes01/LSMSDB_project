@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class RegisterPageController {
     @FXML
@@ -31,7 +32,7 @@ public class RegisterPageController {
         }else if (UserDAO.checkUsernameExists(username.getText())){
             wrongRegister.setText("Please enter the data");
         }else if (UserDAO.createUser(username.getText(), password.getText(), fullname.getText())){
-            u.userLogin();
+            u.userLogin(username.getText(), fullname.getText(), new ArrayList<>());
         }
 
     }

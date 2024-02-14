@@ -31,8 +31,9 @@ public class LogInController {
     @FXML
     private void userLogin(ActionEvent event) throws IOException{
         UserController u = new UserController();
-        if (UserDAO.checkUsernameCredentials(username.getText(), password.getText())){
-            u.userLogin();
+        User checkUser = UserDAO.checkUsernameCredentials(username.getText(), password.getText());
+        if (checkUser != null ){
+            u.userLogin(checkUser.getUsername(), checkUser.getFullName(), checkUser.getWatchlist());
             WatchListDAO.initializeWatchList();
         }else if(username.getText().isEmpty() || password.getText().isEmpty()){
             wrongLogin.setText("Please enter the data");

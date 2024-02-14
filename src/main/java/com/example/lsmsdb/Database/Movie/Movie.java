@@ -12,6 +12,8 @@ public class Movie {
     private double rating;
     private int reviewNumber;
 
+    private String overview;
+
 
     public Movie(int id, String title, int year, String poster, double rating, List<String> genre, int reviewNumber){
         this.id = id;
@@ -23,10 +25,27 @@ public class Movie {
         this.reviewNumber = reviewNumber;
     }
 
-    public List<String> getGenre() {
-        return genre;
+    public Movie(int id, String title, int year, String poster, double rating, List<String> genre, int reviewNumber, String overview){
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.genre = genre;
+        this.poster = poster;
+        this.rating = rating;
+        this.reviewNumber = reviewNumber;
+        this.overview = overview;
     }
 
+    public String getGenre() {
+        String result = "";
+        for (String m : this.genre){
+            result += m + ", ";
+        }
+        return result;
+    }
+    public String getOverview() {
+        return overview;
+    }
     public double getRating() {
         return rating;
     }

@@ -13,7 +13,7 @@
    <children>
       <AnchorPane prefHeight="334.0" prefWidth="225.0">
          <children>
-            <ImageView fx:id="poster" fitHeight="337.0" fitWidth="225.0" onTouchPressed="#goToMoviePage" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="poster" fitHeight="337.0" fitWidth="225.0" onMouseClicked="#goToMoviePage" pickOnBounds="true" preserveRatio="true" />
             <AnchorPane layoutX="13.0" layoutY="336.0" prefHeight="27.0" prefWidth="200.0" />
          </children>
       </AnchorPane>

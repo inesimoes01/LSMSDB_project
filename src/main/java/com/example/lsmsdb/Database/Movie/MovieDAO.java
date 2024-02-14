@@ -90,11 +90,12 @@ public class MovieDAO {
             Double rating = doc.getDouble("vote_average");
             List<String> genre = getMovieGenre((List<Integer>) doc.get("genre_ids"));
             Integer review = doc.getInteger("vote_count");
+            String overview = doc.getString("overview");
 
             if (movieid == null || poster == null || title == null || year == null  || rating == null || genre == null || review == null ){
                 return null;
             }
-            Movie m = new Movie(movieid, title, year, poster, rating, genre, review);
+            Movie m = new Movie(movieid, title, year, poster, rating, genre, review, overview);
             return m;
         }
         catch (Exception e) {

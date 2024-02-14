@@ -4,37 +4,39 @@ import com.example.lsmsdb.HelloApplication;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
+import java.util.List;
 
 public class User {
 
     private static boolean isLoggedIn = false;
-    private static String username;
-    private static String fullName;
-    private static Image profilePic;
+    private String username;
+    private String fullName;
+    private List<Integer> watchlist;
 
-    public static void setUser(String newUsername, String newFullName){
-        username = newUsername;
-        fullName = newFullName;
+    public User(String newUsername, String newFullName, List<Integer> watchlist){
+        this.username = newUsername;
+        this.fullName = newFullName;
+        this.watchlist = watchlist;
     }
 
+    public List<Integer> getWatchlist() {
+        return watchlist;
+    }
 
-    public static String getFullName() {
+    public String getFullName() {
         return fullName;
     }
 
-    public static boolean isLoggedIn() {
+    public boolean isLoggedIn() {
         return isLoggedIn;
     }
 
-    public static void setLoggedIn(boolean loggedIn) {
+    public void setLoggedIn(boolean loggedIn) {
         User.isLoggedIn = loggedIn;
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         return username;
-    }
-    public static Image getProfilePic() {
-        return profilePic;
     }
 
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="209.0" prefWidth="794.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.ReviewItemController">
+   <children>
+      <SplitPane dividerPositions="0.8302387267904509" orientation="VERTICAL" prefHeight="186.0" prefWidth="794.0">
+        <items>
+            <AnchorPane prefHeight="136.0" prefWidth="797.0" style="-fx-background-color: #EFF396;">
+               <children>
+                  <Hyperlink fx:id="usernameLink" layoutX="13.0" layoutY="20.0" onAction="#goToUserProfile" text="Username">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                  </Hyperlink>
+                  <Label fx:id="review" alignment="TOP_LEFT" layoutX="178.0" layoutY="11.0" prefHeight="99.0" prefWidth="569.0" text="Label" wrapText="true">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="14.0" layoutY="79.0" text="Rating">
+                     <font>
+                        <Font name="Verdana Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="rating" layoutX="64.0" layoutY="80.0" text="8.5">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="timestamp" layoutX="13.0" layoutY="53.0" prefHeight="15.0" prefWidth="94.0" text="10/12/2023">
+                     <font>
+                        <Font name="Verdana" size="12.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="142.0" layoutY="2.0" orientation="VERTICAL" prefHeight="168.0" prefWidth="3.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="58.0" prefWidth="792.0" style="-fx-background-color: #211C6A;" />
+        </items>
+      </SplitPane>
+   </children>
+</HBox>

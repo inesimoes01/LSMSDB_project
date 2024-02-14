@@ -13,6 +13,8 @@ public class User {
     private String fullName;
     private List<Integer> watchlist;
 
+    private String profileImage;
+
     public User(String newUsername, String newFullName, List<Integer> watchlist){
         this.username = newUsername;
         this.fullName = newFullName;
@@ -38,5 +40,10 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
 
 }

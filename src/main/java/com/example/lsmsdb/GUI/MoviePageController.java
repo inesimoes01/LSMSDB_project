@@ -75,7 +75,7 @@ public class MoviePageController {
             changeWatchListButton.setText("Add to WatchList");
         }
 
-        System.out.println(MovieController.getCurrentMovie().getId() + MovieController.getCurrentMovie().getTitle());
+        //System.out.println(MovieController.getCurrentMovie().getId() + MovieController.getCurrentMovie().getTitle());
 
         List<Review> reviewList = ReviewDAO.getReviewsFromMovie(MovieController.getCurrentMovie().getId());
         displayReview(reviewList);
@@ -110,7 +110,7 @@ public class MoviePageController {
                         HBox grid = fxmlLoader.load();
                         ReviewItemController ri = fxmlLoader.getController();
                         ri.setData(review);
-                        System.out.println("filled the review");
+                        //System.out.println("filled the review");
                         // Add the movie item to the VBox
                         Platform.runLater(() -> reviewVBox.getChildren().add(grid));
                     } catch (IOException e) {

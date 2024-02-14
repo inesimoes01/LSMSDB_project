@@ -39,7 +39,7 @@ public class ReviewDAO {
                 if(rating == null) rating = 0.0;
 
                 Review r = new Review(u, content, MovieDAO.getMovieById(id), rating, timestamp);
-                System.out.println(u.getUsername() + " " + content  + " " + rating);
+                //System.out.println(u.getUsername() + " " + content  + " " + rating);
                 revList.add(r);
             }
             return revList;

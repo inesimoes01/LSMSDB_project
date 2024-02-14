@@ -72,6 +72,15 @@ public class WatchListDAO {
         return list;
     }
 
+    public static List<Movie> getMoviesFromWatchList(List<Integer> watchListFromUser){
+        List<Movie> list = new ArrayList<>();
+
+        for(Integer id : watchListFromUser){
+            list.add(MovieDAO.getMovieById(id));
+        }
+        return list;
+    }
+
     public static boolean checkIfMovieInWatchList(int id){
         return watchListFromUser.contains(id);
     }

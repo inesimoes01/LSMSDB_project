@@ -85,6 +85,11 @@ public class UserDAO {
         }
         return null;
     }
+
+    public static boolean followUser(){
+
+        return false;
+    }
 }
 //DatabaseMongoDB.getClientMongoDB().startSession();
 //        System.out.println("WE tried ");

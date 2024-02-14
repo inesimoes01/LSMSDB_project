@@ -19,7 +19,7 @@ public class MovieItemController {
 
     //TODO make a different movie item for the watchlist
     //TODO button from add to watch list should change to remove from watchlist
-    private static Movie m;
+    private Movie m;
     @FXML
     public Button changeWatchListButton;
     @FXML
@@ -67,14 +67,14 @@ public class MovieItemController {
     }
     public void addMovieToWatchList(){
         WatchList.addMovieToWatchList(Integer.parseInt(movieid.getText()));
-        labelAdded.setText("Movie added to your Watch List");
+        labelAdded.setText("Added");
         changeWatchListButton.setText("Remove from WatchList" );
     }
 
     public void removeMovieFromWatchList() throws IOException {
         WatchListDAO.removeMovieFromUserWatchList(Integer.parseInt(movieid.getText()));
 //        WatchList.removeMovie(Integer.parseInt(movieid.getText()));
-        labelAdded.setText("Movie removed from your Watch List");
+        labelAdded.setText("Removed");
         changeWatchListButton.setText("Add to WatchList" );
     }
 

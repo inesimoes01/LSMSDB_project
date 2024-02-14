@@ -1,6 +1,7 @@
 package com.example.lsmsdb.GUI;
 
 import com.example.lsmsdb.Database.Review.Review;
+import com.example.lsmsdb.Database.User.User;
 import com.example.lsmsdb.HelloApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 
 public class ReviewItemController {
+
+    private User curr;
 
     @FXML
     private Label rating;
@@ -25,12 +28,15 @@ public class ReviewItemController {
         review.setText(rev.getReviewText().replaceAll("\\.\\s+", ". "));
         usernameLink.setText(rev.getReviewUser().getUsername());
         timestamp.setText(rev.getTimestamp());
+        curr = rev.getReviewUser();
     }
-
     @FXML
     void goToUserProfile(ActionEvent event) throws IOException {
+        UserProfilePageController.setData(curr);
         HelloApplication.changeScene("user-profile.fxml");
     }
+
+
 
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Movie {
 
-    private int id;
+    private String id;
     private String title;
     private int year;
     private List<String> genre;
@@ -15,17 +15,17 @@ public class Movie {
     private String overview;
 
 
-    public Movie(int id, String title, int year, String poster, double rating, List<String> genre, int reviewNumber){
+
+    private Double popularity;
+
+
+    public Movie(String id, String title, String poster){
         this.id = id;
         this.title = title;
-        this.year = year;
-        this.genre = genre;
         this.poster = poster;
-        this.rating = rating;
-        this.reviewNumber = reviewNumber;
     }
 
-    public Movie(int id, String title, int year, String poster, double rating, List<String> genre, int reviewNumber, String overview){
+    public Movie(String id, String title, int year, String poster, double rating, List<String> genre, int reviewNumber, String overview, Double popularity){
         this.id = id;
         this.title = title;
         this.year = year;
@@ -34,6 +34,7 @@ public class Movie {
         this.rating = rating;
         this.reviewNumber = reviewNumber;
         this.overview = overview;
+        this.popularity = popularity;
     }
 
     public String getGenre() {
@@ -69,17 +70,23 @@ public class Movie {
         return poster;
     }
 
+    public String getPosterURL() {
+        return "https://image.tmdb.org/t/p/w500" + poster;
+    }
+
     public void setPoster(String poster) {
         this.poster = poster;
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
     public int getReviewNumber() {
         return reviewNumber;
     }
 
-
+    public Double getPopularity() {
+        return popularity;
+    }
 }

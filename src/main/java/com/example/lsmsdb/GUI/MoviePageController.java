@@ -69,7 +69,7 @@ public class MoviePageController {
         title.setText(curr.getTitle());
         year.setText(String.valueOf(curr.getYear()));
 
-        if (WatchListDAO.checkIfMovieInWatchList(curr.getId())){
+        if (UserController.checkIfMovieInWatchList(movieid.getText())){
             changeWatchListButton.setText("Remove from WatchList" );
         } else {
             changeWatchListButton.setText("Add to WatchList");
@@ -78,6 +78,7 @@ public class MoviePageController {
         //System.out.println(MovieController.getCurrentMovie().getId() + MovieController.getCurrentMovie().getTitle());
 
         List<Review> reviewList = ReviewDAO.getReviewsFromMovie(MovieController.getCurrentMovie().getId());
+        //System.out.println(reviewList);
         displayReview(reviewList);
     }
 
@@ -110,10 +111,10 @@ public class MoviePageController {
                         HBox grid = fxmlLoader.load();
                         ReviewItemController ri = fxmlLoader.getController();
                         ri.setData(review);
-                        //System.out.println("filled the review");
                         // Add the movie item to the VBox
                         Platform.runLater(() -> reviewVBox.getChildren().add(grid));
                     } catch (IOException e) {
+                        System.out.println(e);
                         e.printStackTrace();
                     }
                 }

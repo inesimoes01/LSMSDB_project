@@ -18,29 +18,29 @@ import java.util.List;
 
 public class ReviewDAO {
 
-    public static List<Review> getReviewsFromMovie(int id){
-        //TODO change later to be inside the movie
+    public static List<Review> getReviewsFromMovie(String movieid){
         List<Review> revList = new ArrayList<>();
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("review");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie_tmdb");
 
+        Document searchQuery = new Document();
+        searchQuery.put("_id", movieid);
 
-        try(MongoCursor cursorIterator = userCollection.find().iterator()){
-            while(cursorIterator.hasNext()){
+        try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
+            if(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
-                Document doc_author = (Document) doc.get("author_details");
-                //TODO change when reviews are correct
-                //User u = UserDAO.getUserFromUsername(doc.getString("author_details.username"));
+                List<Document> doc_review = (List<Document>) doc.get("reviews");
+                for (Document document : doc_review){
+                    String username = document.getString("username");
+                    String timestamp = getDate(document.getString("date"));
+                    String content = document.getString("content");
+                    String profilepic = document.getString("profilepic");
+                    Double rating = document.getDouble("rating");
+                    if(rating == null) rating = 0.0;
 
-                User u = new User(doc_author.getString("username"), doc.getString("author"), new ArrayList<>());
-                String timestamp = getDate(doc.getString("created_at"));
-                String content = doc.getString("content");
-                Double rating = doc_author.getDouble("rating");
-
-                if(rating == null) rating = 0.0;
-
-                Review r = new Review(u, content, MovieDAO.getMovieById(id), rating, timestamp);
-                //System.out.println(u.getUsername() + " " + content  + " " + rating);
-                revList.add(r);
+                    Review r = new Review(username, content, movieid, rating, timestamp, profilepic);
+                    revList.add(r);
+                }
+                return revList;
             }
             return revList;
         }catch(MongoException me){
@@ -53,7 +53,7 @@ public class ReviewDAO {
         SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         try {
-
+            System.out.println(timestampString);
             Date timestampDate =  inputDateFormat.parse(timestampString);
             SimpleDateFormat outputDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             String formattedDate = outputDateFormat.format(timestampDate);

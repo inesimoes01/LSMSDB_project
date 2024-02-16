@@ -33,8 +33,9 @@ public class LogInController {
         UserController u = new UserController();
         User checkUser = UserDAO.checkUsernameCredentials(username.getText(), password.getText());
         if (checkUser != null ){
-            u.userLogin(checkUser.getUsername(), checkUser.getFullName(), checkUser.getWatchlist());
-            WatchListDAO.initializeWatchList();
+            u.userLogin(checkUser.getUsername(), checkUser.getFullName(), checkUser.getProfileImage(), checkUser.getWatchlistMovie());
+            WatchListDAO w = new WatchListDAO();
+            w.initializeWatchList(checkUser.getUsername());
         }else if(username.getText().isEmpty() || password.getText().isEmpty()){
             wrongLogin.setText("Please enter the data");
         }else wrongLogin.setText("Wrong credentials");

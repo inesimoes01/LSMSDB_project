@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox prefHeight="172.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.MovieItemProfileController">
+<HBox prefHeight="172.0" prefWidth="363.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.MovieItemUserController">
    <children>
       <AnchorPane prefHeight="172.0" prefWidth="79.0">
          <children>
@@ -27,7 +27,7 @@
                   <Font name="Verdana" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="changeWatchListButton" layoutX="42.0" layoutY="124.0" mnemonicParsing="false" onAction="#removeMovieFromWatchListProfile" style="-fx-background-color: #59B4C3;" text="Remove from WatchList">
+            <Button fx:id="changeWatchListButton" layoutX="41.0" layoutY="130.0" mnemonicParsing="false" onAction="#changeMovieInWatchList" style="-fx-background-color: #59B4C3;" text="Remove from WatchList">
                <font>
                   <Font name="Verdana" size="14.0" />
                </font>

@@ -47,9 +47,13 @@ public class UserProfilePageController {
             Image profile = new Image(curr.getProfileImage());
             profileImage.setImage(profile);
         }
+        List<Movie> m =  curr.getWatchlistMovie();
 
+        if (m != null){
+            System.out.println("movies to displau" + m);
+            displayMovies(m);
+        }
 
-        displayMovies(WatchListDAO.getMoviesFromWatchList(curr.getWatchlist()));
     }
     @FXML
     void goToMainPage(ActionEvent event) throws IOException {
@@ -70,11 +74,13 @@ public class UserProfilePageController {
             @Override
             protected Void call() throws Exception {
                 for (Movie movie : movieList) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item-profile.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item-user.fxml"));
                     try {
                         HBox grid = fxmlLoader.load();
-                        MovieItemController mi = fxmlLoader.getController();
+                        MovieItemUserController mi = fxmlLoader.getController();
+                        System.out.println("ajhhh");
                         mi.setData(movie);
+                        System.out.println("finished");
 
                         // Add the movie item to the VBox
                         Platform.runLater(() -> watchListVBox.getChildren().add(grid));

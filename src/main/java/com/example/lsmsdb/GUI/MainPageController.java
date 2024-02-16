@@ -51,60 +51,103 @@ public class MainPageController {
     public void initialize(){
         usernameLink.setText(UserController.getLoggedInUser().getFullName());
         List<Movie> movieList = MovieDAO.getMainPageMovies();
+        System.out.println("alo");
         displayMovies(movieList);
     }
 
     @FXML
     private void goToProfile(ActionEvent event) throws IOException {
+        cancelMovieLoading();
         HelloApplication.changeScene("profile-page.fxml");
     }
 
     @FXML
     void goToNewMovies(ActionEvent event) {
+        cancelMovieLoading();
 
     }
 
     @FXML
     void goToNewUsers(ActionEvent event) {
+        cancelMovieLoading();
 
     }
 
     @FXML
     void goToMainPage(ActionEvent event) {
+        cancelMovieLoading();
         initialize();
     }
 
     @FXML
     private void userLogout(ActionEvent event) throws IOException {
+        cancelMovieLoading();
         UserController u = new UserController();
         u.userLogout();
     }
 
     @FXML
     public void searchMovie(ActionEvent event) {
+        cancelMovieLoading();
         List<Movie> movieList = MovieDAO.getMoviesFromName(searchText.getText());
         displayMovies(movieList);
     }
+
+//    public void displayMovies(List<Movie> movieList) {
+//        // Clear existing movie items
+//        movieVBOX.getChildren().clear();
+//
+//        // Load movie items in a background thread
+//        Task<Void> task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (Movie movie : movieList) {
+//                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
+//                    try {
+//                        HBox grid = fxmlLoader.load();
+//                        MovieItemController mi = fxmlLoader.getController();
+//                        mi.setData(movie);
+//                        // Add the movie item to the VBox
+//                        Platform.runLater(() -> movieVBOX.getChildren().add(grid));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                return null;
+//            }
+//        };
+//
+//        // Start the background task
+//        new Thread(task).start();
+//    }
+
+    private static Thread movieLoadingThread;
 
     public void displayMovies(List<Movie> movieList) {
         // Clear existing movie items
         movieVBOX.getChildren().clear();
 
-        // Load movie items in a background thread
+        // Create a new task
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 for (Movie movie : movieList) {
+                    if (isCancelled()) { // Check if the task is cancelled
+                        break; // Exit the loop if the task is cancelled
+                    }
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
                     try {
                         HBox grid = fxmlLoader.load();
                         MovieItemController mi = fxmlLoader.getController();
                         mi.setData(movie);
-
                         // Add the movie item to the VBox
                         Platform.runLater(() -> movieVBOX.getChildren().add(grid));
                     } catch (IOException e) {
                         e.printStackTrace();
+                    }
+
+                    if (Thread.currentThread().isInterrupted()) {
+                        break;
                     }
                 }
                 return null;
@@ -112,7 +155,14 @@ public class MainPageController {
         };
 
         // Start the background task
-        new Thread(task).start();
+        movieLoadingThread = new Thread(task);
+        movieLoadingThread.start();
+    }
+    public static void cancelMovieLoading() {
+        if (movieLoadingThread != null) {
+            movieLoadingThread.interrupt(); // Interrupt the thread
+
+        }
     }
 
 }

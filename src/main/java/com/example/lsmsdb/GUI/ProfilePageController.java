@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -40,47 +41,60 @@ public class ProfilePageController {
 
     @FXML
     void goToMainPage(ActionEvent event) throws IOException {
+        cancelMovieLoading();
         HelloApplication.changeScene("main-page.fxml");
     }
 
     @FXML
     private void userLogout(ActionEvent event) throws IOException {
         UserController u = new UserController();
+        cancelMovieLoading();
         u.userLogout();
     }
 
     public void initialize(){
         textWithName.setText("Hello " + UserController.getLoggedInUser().getFullName() + "!");
-        //profileImage.setImage(User.getProfilePic());
+        Image profile = new Image(UserController.getLoggedInUser().getProfileImage());
+        profileImage.setImage(profile);
         displayWatchList();
     }
 
     private void displayWatchList(){
-        List<Movie> movieList = WatchListDAO.getMoviesFromWatchList();
+        List<Movie> movieList = UserController.getLoggedInUser().getWatchlistMovie();
+//        System.out.println("movie list:" + movieList);
+        System.out.println("user logged movie list " + UserController.getLoggedInUser().getWatchlistMovie());
         if (!movieList.isEmpty()){
             displayMovies(movieList);
         }
+
     }
+    private static Thread movieLoadingThread;
 
     public void displayMovies(List<Movie> movieList) {
+        // Clear existing movie items
         watchListVBOX.getChildren().clear();
 
-        watchListVBOX.getChildren().add(new Label("Loading..."));
-
+        // Create a new task
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 for (Movie movie : movieList) {
+                    if (isCancelled()) { // Check if the task is cancelled
+                        break; // Exit the loop if the task is cancelled
+                    }
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item-profile.fxml"));
                     try {
                         HBox grid = fxmlLoader.load();
-                        MovieItemController mi = fxmlLoader.getController();
+                        MovieItemProfileController mi = fxmlLoader.getController();
                         mi.setData(movie);
-
                         // Add the movie item to the VBox
                         Platform.runLater(() -> watchListVBOX.getChildren().add(grid));
                     } catch (IOException e) {
                         e.printStackTrace();
+                    }
+
+                    if (Thread.currentThread().isInterrupted()) {
+                        break;
                     }
                 }
                 return null;
@@ -88,7 +102,41 @@ public class ProfilePageController {
         };
 
         // Start the background task
-        new Thread(task).start();
+        movieLoadingThread = new Thread(task);
+        movieLoadingThread.start();
     }
+    public static void cancelMovieLoading() {
+        if (movieLoadingThread != null) {
+            movieLoadingThread.interrupt(); // Interrupt the thread
+
+        }
+    }
+
+//    public void displayMovies(List<Movie> movieList) {
+//        watchListVBOX.getChildren().clear();
+//
+//        Task<Void> task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (Movie movie : movieList) {
+//                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item-profile.fxml"));
+//                    try {
+//                        HBox grid = fxmlLoader.load();
+//                        MovieItemController mi = fxmlLoader.getController();
+//                        mi.setData(movie);
+//
+//                        // Add the movie item to the VBox
+//                        Platform.runLater(() -> watchListVBOX.getChildren().add(grid));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                return null;
+//            }
+//        };
+//
+//        // Start the background task
+//        new Thread(task).start();
+//    }
 }
 

@@ -1,6 +1,8 @@
 package com.example.lsmsdb.Database.User;
 
 import com.example.lsmsdb.Database.DatabaseMongoDB;
+import com.example.lsmsdb.Database.WatchList.WatchList;
+import com.example.lsmsdb.Database.WatchList.WatchListDAO;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
@@ -13,16 +15,17 @@ import static com.mongodb.client.model.Filters.eq;
 public class UserDAO {
 
     public static User checkUsernameCredentials(String username, String password){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
 
         Document searchQuery = new Document();
-        searchQuery.put("username", username);
+        searchQuery.put("_id", username);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
                 if(password.equals(doc.get("password").toString())){
-                    return new User(username, doc.getString("name"), (List<Integer>) doc.get("watchlist"));
+                    WatchListDAO w = new WatchListDAO();
+                    return new User(username, doc.getString("fullname"), doc.getString("profilepic"), w.initializeWatchList(username));
                 }
             }
 
@@ -33,10 +36,10 @@ public class UserDAO {
     }
 
     public static boolean checkUsernameExists(String username){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
 
         Document searchQuery = new Document();
-        searchQuery.put("username", username);
+        searchQuery.put("_id", username);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
@@ -49,11 +52,12 @@ public class UserDAO {
     }
 
     public static boolean createUser(String username, String password, String fullname){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
 
-        Document newUser = new Document("username", username)
+        Document newUser = new Document("_id", username)
                 .append("password", password)
-                .append("name", fullname);
+                .append("fullname", fullname)
+                .append("profilepic", User.getDefaultProfileImage());
 
         try {
             userCollection.insertOne(newUser);
@@ -67,24 +71,29 @@ public class UserDAO {
     }
 
     public static User getUserFromUsername(String usernameInput){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
 
         Document searchQuery = new Document();
-        searchQuery.put("username", usernameInput);
+        searchQuery.put("_id", usernameInput);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
-                String username = doc.getString("username");
-                String fullname = doc.getString("name");
-                List<Integer> watchlist = (List<Integer>) doc.get("watchlist");
-                return new User(username, fullname, watchlist);
+                String username = doc.getString("_id");
+                String fullname = doc.getString("fullname");
+                String profilepic = doc.getString("profilepic");
+
+                List<String> watchlist = (List<String>) doc.get("watchlist");
+                WatchListDAO w = new WatchListDAO();
+                return new User(username, fullname, profilepic, w.initializeWatchList(username));
             }
         }catch(MongoException me){
             System.exit(-1);
         }
         return null;
     }
+
+
 
     public static boolean followUser(){
 

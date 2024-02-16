@@ -16,45 +16,65 @@ import java.util.List;
 
 public class WatchListDAO {
 
-    private static List<Integer> watchListFromUser = new ArrayList<>();
+    private List<Movie> watchListFromUser = new ArrayList<>();
 
-    public static void initializeWatchList(){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+    public List<Movie> initializeWatchList(String username){
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
         Document searchQuery = new Document();
-        searchQuery.put("username", UserController.getLoggedInUser().getUsername());
-
+        searchQuery.put("_id", username);
+        watchListFromUser = new ArrayList<>();
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
             if(cursorIterator.hasNext()){
                 Document doc = (Document) cursorIterator.next();
-                watchListFromUser = (List<Integer>) doc.get("watchlist");
+                List<Document> doc_watch = (List<Document>) doc.get("watchlist");
+                if (doc_watch != null){
+                    for (Document document : doc_watch){
+                        String title = document.getString("title");
+                        String poster = document.getString("poster");
+                        String movieid = document.getString("_id");
+                        Movie m = new Movie(movieid, title, poster);
+                        watchListFromUser.add(m);
+                    }
+                }
+                System.out.println(watchListFromUser);
+                return watchListFromUser;
+                //watchListFromUser = (List<String>) doc.get("watchlist");
             }
         }catch(MongoException me){
             System.exit(-1);
         }
+        return null;
     }
 
-    public static void addMovieToUserWatchList(int id){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+    public void addMovieToUserWatchList(String username, String id, String title, String poster){
+        System.out.println("user logged in " + username);
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
         Document searchQuery = new Document();
-        searchQuery.put("username", UserController.getLoggedInUser().getUsername());
+        searchQuery.put("_id", username);
+
+        Document movieInfo = new Document("_id", id)
+                .append("title", title)
+                .append("poster", poster);
 
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
-            Document updateDocument = new Document("$addToSet", new Document("watchlist", id));
+            Document updateDocument = new Document("$addToSet", new Document("watchlist", movieInfo));
+            Movie m = new Movie(id, title, poster);
             userCollection.updateOne(searchQuery, updateDocument, new UpdateOptions().upsert(true));
-            watchListFromUser.add(id);
+            watchListFromUser.add(m);
         }catch(MongoException me){
             System.exit(-1);
         }
 
     }
 
-    public static void removeMovieFromUserWatchList(int id){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("users");
+    public void removeMovieFromUserWatchList(String username, String id){
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
         Document searchQuery = new Document();
-        searchQuery.put("username", UserController.getLoggedInUser().getUsername());
+        searchQuery.put("_id", UserController.getLoggedInUser().getUsername());
 
+        Document movieInfo = new Document("_id", id);
         try(MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()){
-            Document updateDocument = new Document("$pull", new Document("watchlist", id));
+            Document updateDocument = new Document("$pull", new Document("watchlist", movieInfo));
             userCollection.updateOne(searchQuery, updateDocument, new UpdateOptions().upsert(true));
             watchListFromUser.remove((Object) id);
         }catch(MongoException me){
@@ -63,25 +83,29 @@ public class WatchListDAO {
 
     }
 
-    public static List<Movie> getMoviesFromWatchList(){
-        List<Movie> list = new ArrayList<>();
-
-        for(Integer id : watchListFromUser){
-            list.add(MovieDAO.getMovieById(id));
-        }
-        return list;
+    public List<Movie> getMoviesFromWatchList(){
+//        List<Movie> list = new ArrayList<>();
+//
+//        for(Movie id : watchListFromUser){
+//            list.add(MovieDAO.getMovieById(id));
+//        }
+        return watchListFromUser;
     }
 
-    public static List<Movie> getMoviesFromWatchList(List<Integer> watchListFromUser){
+    public List<Movie> getMoviesFromWatchList(List<Movie> watchListFromUser){
         List<Movie> list = new ArrayList<>();
 
-        for(Integer id : watchListFromUser){
-            list.add(MovieDAO.getMovieById(id));
+        if (watchListFromUser == null){
+            return null;
+        }else {
+            for(Movie movie : watchListFromUser){
+                list.add(MovieDAO.getMovieById(movie.getId()));
+            }
+            return list;
         }
-        return list;
     }
 
-    public static boolean checkIfMovieInWatchList(int id){
+    public boolean checkIfMovieInWatchList(String id){
         return watchListFromUser.contains(id);
     }
 }

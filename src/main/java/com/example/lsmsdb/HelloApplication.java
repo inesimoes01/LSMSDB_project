@@ -1,6 +1,7 @@
 package com.example.lsmsdb;
 
 import com.example.lsmsdb.Database.DatabaseMongoDB;
+import com.example.lsmsdb.Database.DatabaseNeo4j;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,6 +20,7 @@ public class HelloApplication extends Application {
         stc = primaryStage;
         primaryStage.setResizable(false);
         DatabaseMongoDB.connectMongoDB();
+        DatabaseNeo4j.connectNeo4j();
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900, 600);

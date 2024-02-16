@@ -1,5 +1,6 @@
 package com.example.lsmsdb.GUI;
 
+import com.example.lsmsdb.Database.User.User;
 import com.example.lsmsdb.Database.User.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,7 +33,7 @@ public class RegisterPageController {
         }else if (UserDAO.checkUsernameExists(username.getText())){
             wrongRegister.setText("Please enter the data");
         }else if (UserDAO.createUser(username.getText(), password.getText(), fullname.getText())){
-            u.userLogin(username.getText(), fullname.getText(), new ArrayList<>());
+            u.userLogin(username.getText(), fullname.getText(), User.getDefaultProfileImage(), new ArrayList<>());
         }
 
     }

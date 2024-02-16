@@ -78,9 +78,8 @@ public class UserProfilePageController {
                     try {
                         HBox grid = fxmlLoader.load();
                         MovieItemUserController mi = fxmlLoader.getController();
-                        System.out.println("ajhhh");
+
                         mi.setData(movie);
-                        System.out.println("finished");
 
                         // Add the movie item to the VBox
                         Platform.runLater(() -> watchListVBox.getChildren().add(grid));

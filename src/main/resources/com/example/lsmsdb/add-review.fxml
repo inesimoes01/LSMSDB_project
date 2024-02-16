@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="226.0" prefWidth="600.0" style="-fx-background-color: #211C6A;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.lsmsdb.GUI.AddReviewController">
+   <children>
+      <TextArea fx:id="reviewText" layoutX="24.0" layoutY="45.0" prefHeight="121.0" prefWidth="552.0" promptText="Write your review here" />
+      <Button fx:id="reviewMovieButton" layoutX="505.0" layoutY="176.0" mnemonicParsing="false" onAction="#addReviewToMovie" style="-fx-background-color: #59B4C3; -fx-border-color: #000000;" text="Publish">
+         <font>
+            <Font name="Verdana" size="14.0" />
+         </font>
+      </Button>
+      <Slider fx:id="ratingSlider" blockIncrement="0.1" layoutX="160.0" layoutY="16.0" max="10.0" min="1.0" />
+      <Label layoutX="28.0" layoutY="12.0" text="Rating:" textFill="#f4f4f4">
+         <font>
+            <Font name="Verdana Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="ratingLabel" layoutX="106.0" layoutY="12.0" text="9.0" textFill="#f4f4f4">
+         <font>
+            <Font name="Verdana" size="17.0" />
+         </font>
+      </Label>
+      <Button fx:id="cancelButton" layoutX="24.0" layoutY="176.0" mnemonicParsing="false" onAction="#goToMoviePage" style="-fx-background-color: #59B4C3; -fx-border-color: #000000;" text="Cancel">
+         <font>
+            <Font name="Verdana" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

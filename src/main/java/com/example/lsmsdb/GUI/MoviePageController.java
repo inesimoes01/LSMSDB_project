@@ -3,6 +3,7 @@ package com.example.lsmsdb.GUI;
 import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.Database.Review.Review;
 import com.example.lsmsdb.Database.Review.ReviewDAO;
+import com.example.lsmsdb.Database.WatchList.WatchList;
 import com.example.lsmsdb.Database.WatchList.WatchListDAO;
 import com.example.lsmsdb.HelloApplication;
 import javafx.application.Platform;
@@ -46,6 +47,8 @@ public class MoviePageController {
 
     @FXML
     private VBox reviewVBox;
+    @FXML
+    private Label labelAdded;
 
     @FXML
     private Label title;
@@ -68,6 +71,7 @@ public class MoviePageController {
         movieid.setText(String.valueOf(curr.getId()));
         title.setText(curr.getTitle());
         year.setText(String.valueOf(curr.getYear()));
+        labelAdded.setText(" ");
 
         if (UserController.checkIfMovieInWatchList(movieid.getText())){
             changeWatchListButton.setText("Remove from WatchList" );
@@ -83,18 +87,48 @@ public class MoviePageController {
     }
 
     @FXML
-    void addReviewToMovie(ActionEvent event) {
-
+    void addReviewToMovie(ActionEvent event) throws IOException {
+        HelloApplication.changeScene("add-review.fxml");
     }
 
     @FXML
-    void changeMovieInWatchList(ActionEvent event) {
-
+    void changeMovieInWatchList(ActionEvent event) throws IOException {
+        if (changeWatchListButton.getText().equals("Add to WatchList")){
+            addMovieToWatchList();
+        } else if (changeWatchListButton.getText().equals("Remove from WatchList")){
+            removeMovieFromWatchList();
+        }
     }
 
     @FXML
     void goToMoviePage(TouchEvent event) {
 
+    }
+
+    public void changeMovieInWatchList() throws IOException {
+
+    }
+    public void addMovieToWatchList(){
+        WatchList.addMovieToWatchList(movieid.getText(), title.getText(), getImageUrl(poster));
+        labelAdded.setText("Added");
+        UserController.updateWatchList();
+        changeWatchListButton.setText("Remove from WatchList" );
+    }
+
+    public static String getImageUrl(ImageView imageView) {
+        Image image = imageView.getImage();
+        if (image != null) {
+            return image.getUrl();
+        }
+        return null; // If image is not set
+    }
+
+    public void removeMovieFromWatchList() throws IOException {
+        //WatchList.removeMovie(movieid.getText());
+        WatchList.removeMovieMain(movieid.getText());
+        labelAdded.setText("Removed");
+        UserController.updateWatchList();
+        changeWatchListButton.setText("Add to WatchList" );
     }
 
     public void displayReview(List<Review> reviewList) {

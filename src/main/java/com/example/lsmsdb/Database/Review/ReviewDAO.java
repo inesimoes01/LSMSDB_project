@@ -8,10 +8,13 @@ import com.example.lsmsdb.Database.User.UserDAO;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,4 +67,41 @@ public class ReviewDAO {
         return null;
     }
 
+    public static void addReview(String username, String movieid, String poster, String reviewText, Double rating) {
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie_tmdb");
+
+        Document searchQuery = new Document();
+        searchQuery.put("_id", movieid);
+
+        Document movieInfo = new Document("username", username)
+                .append("profilepic", poster)
+                .append("rating", rating)
+                .append("date", getTodayDate())
+                .append("content", reviewText);
+
+        try (MongoCursor cursorIterator = userCollection.find(searchQuery).iterator()) {
+            if (cursorIterator.hasNext()) {
+                Document doc = (Document) cursorIterator.next();
+
+                Document updateDocument = new Document("$addToSet", new Document("reviews", movieInfo));
+                userCollection.updateOne(searchQuery, updateDocument, new UpdateOptions().upsert(true));
+
+            }
+        } catch (MongoException me) {
+            System.exit(-1);
+        }
+    }
+
+    private static String getTodayDate(){
+        LocalDateTime now = LocalDateTime.now();
+
+        // Define the date-time formatter
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+        // Format the current date and time using the formatter
+        String formattedDateTime = now.format(formatter);
+        return formattedDateTime;
+    }
 }
+
+

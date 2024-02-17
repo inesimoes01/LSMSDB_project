@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
@@ -34,6 +35,16 @@
                   <Font name="Verdana" size="16.0" />
                </font>
             </Button>
+            <Hyperlink fx:id="followersLink" layoutX="45.0" layoutY="319.0" onAction="#goToFollowersPage" text="Followers" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink fx:id="followingLink" layoutX="177.0" layoutY="321.0" onAction="#goToFollowingPage" text="Following" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="17.0" />
+               </font>
+            </Hyperlink>
          </children>
       </AnchorPane>
       <ScrollPane prefHeight="200.0" prefWidth="200.0">

@@ -23,7 +23,7 @@ public class ReviewDAO {
 
     public static List<Review> getReviewsFromMovie(String movieid){
         List<Review> revList = new ArrayList<>();
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie_tmdb");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie");
 
         Document searchQuery = new Document();
         searchQuery.put("_id", movieid);
@@ -68,7 +68,7 @@ public class ReviewDAO {
     }
 
     public static void addReview(String username, String movieid, String poster, String reviewText, Double rating) {
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie_tmdb");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie");
 
         Document searchQuery = new Document();
         searchQuery.put("_id", movieid);

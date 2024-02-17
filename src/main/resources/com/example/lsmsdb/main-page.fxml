@@ -41,6 +41,11 @@
                   <Font name="Verdana" size="16.0" />
                </font>
             </Hyperlink>
+            <Hyperlink fx:id="statisticsLink" alignment="CENTER" layoutX="18.0" layoutY="333.0" onAction="#goToStatisticsPage" prefHeight="27.0" prefWidth="260.0" text="Statistics" textAlignment="CENTER" textFill="#211c6a">
+               <font>
+                  <Font name="Verdana" size="16.0" />
+               </font>
+            </Hyperlink>
          </children></AnchorPane>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #59B4C3;">
          <content>

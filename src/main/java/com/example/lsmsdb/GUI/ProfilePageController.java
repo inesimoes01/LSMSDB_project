@@ -2,6 +2,7 @@ package com.example.lsmsdb.GUI;
 
 import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.Database.User.User;
+import com.example.lsmsdb.Database.User.UserDAO;
 import com.example.lsmsdb.Database.WatchList.WatchList;
 import com.example.lsmsdb.Database.WatchList.WatchListDAO;
 import com.example.lsmsdb.HelloApplication;
@@ -37,7 +38,11 @@ public class ProfilePageController {
 
     @FXML
     private VBox watchListVBOX;
+    @FXML
+    private Hyperlink followersLink;
 
+    @FXML
+    private Hyperlink followingLink;
 
     @FXML
     void goToMainPage(ActionEvent event) throws IOException {
@@ -111,6 +116,28 @@ public class ProfilePageController {
 
         }
     }
+
+    @FXML
+    public void getUserFollowers() throws IOException {
+
+    }
+
+    @FXML
+    void goToFollowersPage(ActionEvent event) throws IOException {
+        FollowListController.setAction("myfollowers");
+        HelloApplication.changeScene("follow-list.fxml");
+    }
+
+    @FXML
+    void goToFollowingPage(ActionEvent event) throws IOException {
+        FollowListController.setAction("myfollowing");
+        HelloApplication.changeScene("follow-list.fxml");
+    }
+
+//    public List<String> getUserFollowing(){
+//        return UserDAO.getUserFollowers(UserController.getLoggedInUser().getUsername());
+//    }
+
 
 //    public void displayMovies(List<Movie> movieList) {
 //        watchListVBOX.getChildren().clear();

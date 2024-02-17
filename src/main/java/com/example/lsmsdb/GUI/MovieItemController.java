@@ -50,9 +50,17 @@ public class MovieItemController {
     public void setData(Movie movie){
         m = movie;
 
-        Image posterImage = new Image(movie.getPoster());
-        movieid.setText(String.valueOf(movie.getId()));
-        poster.setImage(posterImage);
+        if(movie.getPoster().contains("https://")){
+            Image posterImage = new Image(movie.getPoster());
+            movieid.setText(String.valueOf(movie.getId()));
+            poster.setImage(posterImage);
+        }else {
+            Image posterImage = new Image(movie.getPosterURL());
+            movieid.setText(String.valueOf(movie.getId()));
+            poster.setImage(posterImage);
+        }
+
+
         title.setText(movie.getTitle());
         genre.setText(movie.getGenre());
         rating.setText(String.valueOf(movie.getRating()));

@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +23,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class UserProfilePageController {
+    public static User getCurr() {
+        return curr;
+    }
+
     private static User curr;
 
     @FXML
@@ -35,12 +40,27 @@ public class UserProfilePageController {
 
     @FXML
     private VBox watchListVBox;
+    @FXML
+    private Button followButton;
+    @FXML
+    private Hyperlink followersLink;
+
+    @FXML
+    private Hyperlink followingLink;
 
     public static void setData(User u){
         curr = u;
     }
 
     public void initialize(){
+
+        //check if user follows this person
+        List<String> l = UserDAO.getUserFollowing(UserController.getLoggedInUser().getUsername());
+
+        if (l.contains(curr.getUsername())){
+            followButton.setText("Unfollow");
+        } else followButton.setText("Follow");
+
         fullname.setText(curr.getFullName());
 
         if (curr.getProfileImage() != null){
@@ -50,7 +70,6 @@ public class UserProfilePageController {
         List<Movie> m =  curr.getWatchlistMovie();
 
         if (m != null){
-            System.out.println("movies to displau" + m);
             displayMovies(m);
         }
 
@@ -62,9 +81,27 @@ public class UserProfilePageController {
 
     @FXML
     void followUser(ActionEvent event) {
-        UserDAO.followUser();
+        if (followButton.getText().equals("Follow")){
+            UserDAO.followUser(curr.getUsername());
+            followButton.setText("Unfollow");
+        }
+        else if(followButton.getText().equals("Unfollow")){
+            UserDAO.unfollowUser(curr.getUsername());
+            followButton.setText("Follow");
+        }
     }
 
+    @FXML
+    void goToFollowersPage(ActionEvent event) throws IOException {
+        FollowListController.setAction("followers");
+        HelloApplication.changeScene("follow-list.fxml");
+    }
+
+    @FXML
+    void goToFollowingPage(ActionEvent event) throws IOException {
+        FollowListController.setAction("following");
+        HelloApplication.changeScene("follow-list.fxml");
+    }
     public void displayMovies(List<Movie> movieList) {
         // Clear existing movie items
         watchListVBox.getChildren().clear();

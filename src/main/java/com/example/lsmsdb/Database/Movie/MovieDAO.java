@@ -23,7 +23,7 @@ public class MovieDAO {
     private static HashMap<Integer, String> genreNameById = new HashMap<>();
 
     public static List<Movie> getMoviesFromName(String titleInput){
-        MongoCollection movieCollection = DatabaseMongoDB.getCollection("movie_tmdb");
+        MongoCollection movieCollection = DatabaseMongoDB.getCollection("movie");
         List<Movie> listMovies = new ArrayList<>();
         Pattern pattern = Pattern.compile(".*" + titleInput + ".*", Pattern.CASE_INSENSITIVE);
 
@@ -45,7 +45,7 @@ public class MovieDAO {
     }
 
     public static Movie getMovieById(String idInput){
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie_tmdb");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie");
         List<Movie> listMovies = new ArrayList<>();
 
         Document searchQuery = new Document();
@@ -87,7 +87,7 @@ public class MovieDAO {
 //    }
     public static List<Movie> getMainPageMovies(){
         fillGenreNameById();
-        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie_tmdb");
+        MongoCollection userCollection = DatabaseMongoDB.getCollection("movie");
         List<Movie> movieList = new ArrayList<>();
         int count = 0;
         try(MongoCursor cursorIterator = userCollection.find().iterator()){

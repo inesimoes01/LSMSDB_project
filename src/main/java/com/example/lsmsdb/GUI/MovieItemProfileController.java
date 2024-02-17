@@ -29,9 +29,19 @@ public class MovieItemProfileController {
     public void setData(Movie movie){
         m = movie;
 
-        Image posterImage = new Image(movie.getPoster());
+        if(movie.getPoster().contains("https://")){
+            Image posterImage = new Image(movie.getPoster());
+            movieid.setText(String.valueOf(movie.getId()));
+            poster.setImage(posterImage);
+        }else {
+            Image posterImage = new Image(movie.getPosterURL());
+            movieid.setText(String.valueOf(movie.getId()));
+            poster.setImage(posterImage);
+        }
+
+//        Image posterImage = new Image(movie.getPoster());
         movieid.setText(String.valueOf(movie.getId()));
-        poster.setImage(posterImage);
+//        poster.setImage(posterImage);
         title.setText(movie.getTitle());
 
         changeWatchListButton.setText("Remove from WatchList" );

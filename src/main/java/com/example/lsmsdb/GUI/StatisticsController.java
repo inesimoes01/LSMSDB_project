@@ -29,8 +29,6 @@ public class StatisticsController {
     @FXML
     private Hyperlink mostTalkedAboutMovies;
 
-    @FXML
-    private Hyperlink mostVersatileUser;
 
     @FXML
     void goToMostAddedMovie(ActionEvent event) throws IOException {
@@ -62,11 +60,6 @@ public class StatisticsController {
         HelloApplication.changeScene("general-statistics.fxml");
     }
 
-    @FXML
-    void goToMostVersatileUser(ActionEvent event) throws IOException {
-        GeneralStatisticsController.setAction("mostVersatileUser");
-        HelloApplication.changeScene("general-statistics.fxml");
-    }
 
     @FXML
     void goToMainPage(ActionEvent event) throws IOException {

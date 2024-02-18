@@ -2,8 +2,12 @@ package com.example.lsmsdb.Database;
 
 import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.GUI.UserController;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Sorts;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Session;
@@ -14,8 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.mongodb.client.model.Accumulators.avg;
-import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Accumulators.*;
 import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Projections.*;
 import static com.mongodb.client.model.Sorts.*;
@@ -33,7 +36,7 @@ public class StatisticsDAO {
 
             session.writeTransaction((TransactionWork<Void>) tx -> {
                 Result res = tx.run(
-                        "MATCH (u:user)-[rel:FOLLOWS]->() " +
+                        "MATCH ()-[rel:FOLLOWS]->(u:user) " +
                                 "WITH u, COUNT(rel) AS followersCount " +
                                 "ORDER BY followersCount DESC " +
                                 "RETURN u.username AS mostFollowedUser, followersCount " +
@@ -52,33 +55,32 @@ public class StatisticsDAO {
     }
 
     public static List<String> getMostAddedMovie() {
-        List<String> u = new ArrayList<>();
-        Document movieWithMostWatchlistAdditions = (Document) moviesCollection.aggregate(
-                Arrays.asList(
-                        project(fields(include("title", "watchlist"), computed("watchlistCount", new Document("$size", "$watchlist")))),
-                        sort(descending("watchlistCount")),
-                        limit(1)
-                )
+        Document aggregationResult = (Document) userCollection.aggregate(Arrays.asList(
+                unwind("$watchlist"),
+                group("$watchlist", sum("count", 1)),
+                sort(descending("count")),
+                limit(1)
+        )
         ).first();
-        System.out.println("Movie that has been added to a watchlist most times: " + movieWithMostWatchlistAdditions.toJson());
-        u.add(String.valueOf(movieWithMostWatchlistAdditions.getString("title")));
-        u.add(String.valueOf(movieWithMostWatchlistAdditions.getInteger("watchlistCount")));
-        return u;
-    }
 
-    public static List<String> getMostVersatileUser() {
-        List<String> l = new ArrayList<>();
-        Document userWithHighestGenresInWatchlist = (Document) userCollection.aggregate(
-                Arrays.asList(
-                        project(fields(include("username", "watchlist"), computed("genreCount", new Document("$size", "$watchlist.genre_ids")))),
-                        sort(descending("genreCount")),
-                        limit(1)
-                )
-        ).first();
-        System.out.println("User with the highest number of genres in their watchlist: " + userWithHighestGenresInWatchlist.toJson());
-        l.add(String.valueOf(userWithHighestGenresInWatchlist.getString("_id")));
-        l.add(String.valueOf(userWithHighestGenresInWatchlist.getInteger("genreCount")));
-        return null;
+        List<String> result = new ArrayList<>();
+        if (aggregationResult != null) {
+            System.out.println(aggregationResult);
+            Document movieDetails = aggregationResult.get("_id", Document.class);
+            String movieId = movieDetails.getString("_id");
+            String movieTitle = movieDetails.getString("title");
+
+            int count = aggregationResult.getInteger("count");
+            Document movieQuery = new Document("_id", movieId);
+            Document mostAddedMovie = (Document) moviesCollection.find(movieQuery).first();
+
+            if (mostAddedMovie != null) {
+                result.add(mostAddedMovie.getString("title"));
+                result.add(String.valueOf(aggregationResult.getInteger("count")));
+            }
+        }
+
+        return result;
     }
 
     public static List<String> getMostCriticalUser() {

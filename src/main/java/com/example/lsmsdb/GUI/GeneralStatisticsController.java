@@ -6,12 +6,17 @@ import com.example.lsmsdb.HelloApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.example.lsmsdb.Database.Movie.MovieDAO.getMovieGenre;
+import static com.mongodb.client.model.Accumulators.sum;
+import static com.mongodb.client.model.Aggregates.*;
+import static com.mongodb.client.model.Sorts.descending;
 
 public class GeneralStatisticsController {
 
@@ -28,12 +33,6 @@ public class GeneralStatisticsController {
 
     public void initialize(){
         switch (action) {
-            case "mostVersatileUser" -> {
-                // user with the highest number of genres in their watchlist
-                List<String> user = StatisticsDAO.getMostVersatileUser();
-                statistics.setText("Username: " + user.get(0));
-                statistics2.setText("Number of genres in their watchlist: " + user.get(1));
-            }
             case "mostAddedMovie" -> {
                 // movie in most watchlists
                 List<String> movie = StatisticsDAO.getMostAddedMovie();

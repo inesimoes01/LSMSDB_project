@@ -15,11 +15,6 @@
                   <Font name="Verdana Bold" size="19.0" />
                </font>
             </Hyperlink>
-            <Hyperlink fx:id="mostVersatileUser" layoutX="43.0" layoutY="86.0" onAction="#goToMostVersatileUser" text="Most Versatile User">
-               <font>
-                  <Font name="Verdana Bold" size="19.0" />
-               </font>
-            </Hyperlink>
             <Hyperlink fx:id="mostCriticalUser" layoutX="43.0" layoutY="144.0" onAction="#goToMostCriticalUser" text="Most Critical User">
                <font>
                   <Font name="Verdana Bold" size="19.0" />

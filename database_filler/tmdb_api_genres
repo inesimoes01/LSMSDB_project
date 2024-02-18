@@ -6,7 +6,7 @@ TMDB_API_BASE_URL = "https://api.themoviedb.org/3"
 
 # MongoDB connection settings
 MONGODB_CONNECTION_STRING = "mongodb://localhost:27017/"
-MONGODB_DATABASE_NAME = "teste"
+MONGODB_DATABASE_NAME = "project"
 MONGODB_COLLECTION_NAME = "genre"
 
 # TMDB API key

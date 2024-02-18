@@ -72,17 +72,15 @@ public class MoviePageController {
         title.setText(curr.getTitle());
         year.setText(String.valueOf(curr.getYear()));
         labelAdded.setText(" ");
-
         if (UserController.checkIfMovieInWatchList(movieid.getText())){
             changeWatchListButton.setText("Remove from WatchList" );
         } else {
             changeWatchListButton.setText("Add to WatchList");
         }
-
         //System.out.println(MovieController.getCurrentMovie().getId() + MovieController.getCurrentMovie().getTitle());
 
         List<Review> reviewList = ReviewDAO.getReviewsFromMovie(MovieController.getCurrentMovie().getId());
-        //System.out.println(reviewList);
+        System.out.println(reviewList);
         displayReview(reviewList);
     }
 

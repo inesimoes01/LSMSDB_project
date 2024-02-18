@@ -20,7 +20,7 @@ db = client[MONGODB_DATABASE_NAME]
 collection = db[MONGODB_COLLECTION_NAME]
 
 # Trakt API endpoint for popular movies
-endpoint = "/movies/popular"
+comments_endpoint = "/movies/{}/comments/sort"
 
 # Trakt API request headers
 headers = {
@@ -49,9 +49,9 @@ all_movies = []
 
 # Iterate over pages of results
 page = 1
-while page < 20:
+while True:
     # Make GET request to Trakt API for the current page
-    response = requests.get(TRAKT_API_BASE_URL + endpoint + f"?page={page}", headers=headers)
+    response = requests.get(TRAKT_API_BASE_URL + comments_endpoint.format(movie_id), headers=headers)
 
     # Check if request was successful
     if response.status_code == 200:

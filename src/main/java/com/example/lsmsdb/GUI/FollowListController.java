@@ -1,6 +1,7 @@
 package com.example.lsmsdb.GUI;
 
 import com.example.lsmsdb.Database.Movie.Movie;
+import com.example.lsmsdb.Database.SuggestionsDAO;
 import com.example.lsmsdb.Database.User.UserDAO;
 import com.example.lsmsdb.HelloApplication;
 import javafx.application.Platform;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FollowListController {
@@ -63,6 +65,24 @@ public class FollowListController {
                 titleLabel.setText("Following List");
                 List<String> l = UserDAO.getUserFollowing(UserProfilePageController.getCurr().getUsername());
                 if (l != null) {
+                    displayFollower(l);
+                }
+            }
+            case "suggestBasedOnUser" -> {
+                titleLabel.setText("Recommended users based on your ratings");
+                List<String> userList = SuggestionsDAO.getSuggestedUsers();
+                if (userList != null){
+                    displayFollower(userList);
+                }
+            }
+            case "suggestBasedOnMovie" -> {
+                titleLabel.setText("Recommended movies based on your following likes");
+                List<Movie> movieList = SuggestionsDAO.getSuggestedMovie();
+                List<String> l = new ArrayList<>();
+                for (Movie m : movieList){
+                    l.add(m.getTitle());
+                }
+                if (l != null){
                     displayFollower(l);
                 }
             }

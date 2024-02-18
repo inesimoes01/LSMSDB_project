@@ -2,6 +2,7 @@ package com.example.lsmsdb.GUI;
 
 import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.Database.Movie.MovieDAO;
+import com.example.lsmsdb.Database.StatisticsDAO;
 import com.example.lsmsdb.HelloApplication;
 import com.example.lsmsdb.Database.User.User;
 import javafx.application.Platform;
@@ -48,6 +49,8 @@ public class MainPageController {
     @FXML
     private Hyperlink usernameLink;
 
+    @FXML
+    private Hyperlink statisticsLink;
     public void initialize(){
         usernameLink.setText(UserController.getLoggedInUser().getFullName());
         List<Movie> movieList = MovieDAO.getMainPageMovies();
@@ -62,15 +65,17 @@ public class MainPageController {
     }
 
     @FXML
-    void goToNewMovies(ActionEvent event) {
+    void goToNewMovies(ActionEvent event) throws IOException {
         cancelMovieLoading();
-
+        FollowListController.setAction("suggestBasedOnMovie");
+        HelloApplication.changeScene("follow-list.fxml");
     }
 
     @FXML
-    void goToNewUsers(ActionEvent event) {
+    void goToNewUsers(ActionEvent event) throws IOException {
         cancelMovieLoading();
-
+        FollowListController.setAction("suggestBasedOnUser");
+        HelloApplication.changeScene("follow-list.fxml");
     }
 
     @FXML
@@ -93,33 +98,13 @@ public class MainPageController {
         displayMovies(movieList);
     }
 
-//    public void displayMovies(List<Movie> movieList) {
-//        // Clear existing movie items
-//        movieVBOX.getChildren().clear();
-//
-//        // Load movie items in a background thread
-//        Task<Void> task = new Task<Void>() {
-//            @Override
-//            protected Void call() throws Exception {
-//                for (Movie movie : movieList) {
-//                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
-//                    try {
-//                        HBox grid = fxmlLoader.load();
-//                        MovieItemController mi = fxmlLoader.getController();
-//                        mi.setData(movie);
-//                        // Add the movie item to the VBox
-//                        Platform.runLater(() -> movieVBOX.getChildren().add(grid));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                return null;
-//            }
-//        };
-//
-//        // Start the background task
-//        new Thread(task).start();
-//    }
+    @FXML
+    public void goToStatistics() throws IOException {
+        cancelMovieLoading();
+        HelloApplication.changeScene("statistics.fxml");
+    }
+
+
 
     private static Thread movieLoadingThread;
 
@@ -166,3 +151,30 @@ public class MainPageController {
     }
 
 }
+//    public void displayMovies(List<Movie> movieList) {
+//        // Clear existing movie items
+//        movieVBOX.getChildren().clear();
+//
+//        // Load movie items in a background thread
+//        Task<Void> task = new Task<Void>() {
+//            @Override
+//            protected Void call() throws Exception {
+//                for (Movie movie : movieList) {
+//                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("movie-item.fxml"));
+//                    try {
+//                        HBox grid = fxmlLoader.load();
+//                        MovieItemController mi = fxmlLoader.getController();
+//                        mi.setData(movie);
+//                        // Add the movie item to the VBox
+//                        Platform.runLater(() -> movieVBOX.getChildren().add(grid));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                return null;
+//            }
+//        };
+//
+//        // Start the background task
+//        new Thread(task).start();
+//    }

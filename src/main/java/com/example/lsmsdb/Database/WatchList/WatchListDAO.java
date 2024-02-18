@@ -1,6 +1,7 @@
 package com.example.lsmsdb.Database.WatchList;
 
 import com.example.lsmsdb.Database.DatabaseMongoDB;
+import com.example.lsmsdb.Database.DatabaseNeo4j;
 import com.example.lsmsdb.Database.Movie.Movie;
 import com.example.lsmsdb.Database.Movie.MovieDAO;
 import com.example.lsmsdb.Database.User.User;
@@ -10,9 +11,16 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.UpdateOptions;
 import org.bson.Document;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.Result;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.TransactionWork;
+import org.neo4j.driver.exceptions.Neo4jException;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.neo4j.driver.Values.parameters;
 
 public class WatchListDAO {
 
@@ -47,7 +55,6 @@ public class WatchListDAO {
     }
 
     public void addMovieToUserWatchList(String username, String id, String title, String poster){
-        System.out.println("user logged in " + username);
         MongoCollection userCollection = DatabaseMongoDB.getCollection("user");
         Document searchQuery = new Document();
         searchQuery.put("_id", username);
@@ -80,15 +87,9 @@ public class WatchListDAO {
         }catch(MongoException me){
             System.exit(-1);
         }
-
     }
 
     public List<Movie> getMoviesFromWatchList(){
-//        List<Movie> list = new ArrayList<>();
-//
-//        for(Movie id : watchListFromUser){
-//            list.add(MovieDAO.getMovieById(id));
-//        }
         return watchListFromUser;
     }
 

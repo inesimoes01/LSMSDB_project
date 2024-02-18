@@ -133,7 +133,7 @@ public class MovieDAO {
         return "https://image.tmdb.org/t/p/w500" + link;
     }
 
-    private static List<String> getMovieGenre(List<Integer> genreIdList){
+    public static List<String> getMovieGenre(List<Integer> genreIdList){
         List<String> genreNameList = new ArrayList<>();
         for (Integer id : genreIdList) {
             genreNameList.add(genreNameById.get(id));
